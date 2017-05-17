@@ -3803,9 +3803,9 @@ ENDIF
         ADC     #$30
         JSR     LFFEE
 
-        LDA     #$5F
+        LDA     #<L9A5F
         STA     L00B6
-        LDA     #$9A
+        LDA     #>L9A5F
         STA     L00B7
         LDX     #$0D
         JSR     L9287
@@ -4939,6 +4939,7 @@ ENDIF
         EQUB    $20,$20,$20,$20,$20,$20,$20,$20
         EQUB    $20,$24,$20,$20,$20,$20,$20,$20
         EQUB    $20,$20,$20,$02,$00,$00,$00,$02
+.L9A5F        
         EQUB    $00,$00,$00,$02
 
 .L9A63
@@ -4964,6 +4965,9 @@ ENDIF
 ;;
 ;; Boot commands
 ;; -------------
+
+.boot_command_table
+
 .L9A7B EQUS "L."        ;; Start of *Load option
 
 .L9A7D EQUS "$.!BOOT"   ;; End of *Load and *Run option
@@ -4971,6 +4975,12 @@ ENDIF
 
 .L9A85 EQUS "E.$.!BOOT" ;; *Exec option
        EQUB &0D
+
+.boot_command_table_end        
+
+IF HI(boot_command_table) != HI(boot_command_table_end)
+       ERROR "boot_command_table must not straddle a page boundary"
+ENDIF
 
 ;;
 ;;
@@ -5365,7 +5375,7 @@ ENDIF
         BEQ     L9CA4
 
         LDX     L9A77,Y
-        LDY     #$9A
+        LDY     #>boot_command_table
         JSR     LFFF7
 
 .L9CA4
@@ -6602,8 +6612,8 @@ ENDIF
         JSR     LB1B6
 
         STA     L1132
-        LDX     #$85
-        LDY     #$9A
+        LDX     #<L9A85
+        LDY     #>L9A85
         JMP     LFFF7
 
 .LA3E9
