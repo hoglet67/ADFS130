@@ -7276,9 +7276,9 @@ ENDIF
         DEY
         BPL     LA77C
 
-        LDA     #$A1
+        LDA     #<(LA7A2 - 1)
         STA     L0101,X
-        LDA     #$A7
+        LDA     #>(LA7A2 - 1)
         STA     L0102,X
         PLA
         TAX
