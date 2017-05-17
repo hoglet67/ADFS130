@@ -2518,6 +2518,7 @@ LFFFF   = $FFFF
 
         EQUB    $00
 
+.L8C05
         JSR     L8BB3
 
         BNE     L8BC8
@@ -2633,6 +2634,7 @@ LFFFF   = $FFFF
         STA     (L00B8),Y
         RTS
 
+.L8CA8
         LDY     #$00
         LDA     (L00B8),Y
         STA     L00B4
@@ -3154,12 +3156,14 @@ LFFFF   = $FFFF
 
         RTS
 
+.L8F74
         JSR     L8F4C
 
         JSR     L8A3D
 
         JMP     L8F80
 
+.L8F7D
         JSR     L8F4C
 
 .L8F80
@@ -3336,6 +3340,7 @@ LFFFF   = $FFFF
         EQUB    $00,$0E,$FF,$FF,$0A,$00,$00,$00
         EQUB    $02,$00
 
+.L907C
         STA     L1023
         JSR     L8BE5
 
@@ -3428,6 +3433,7 @@ LFFFF   = $FFFF
 
         JMP     L8CC3
 
+.L9101
         JSR     L8BE5
 
         BEQ     L90CF
@@ -3446,6 +3452,8 @@ LFFFF   = $FFFF
         STA     L00B8
         LDA     #$10
         STA     L00B9
+
+.L911E
         JSR     L8CC9
 
         BEQ     L9128
@@ -3632,7 +3640,7 @@ LFFFF   = $FFFF
         CPX     #$12
         BCS     L9268
 
-        LDA     L926A,X
+        LDA     L9269+1,X
         PHA
         LDA     L9269,X
         PHA
@@ -3649,13 +3657,16 @@ LFFFF   = $FFFF
         RTS
 
 .L9269
-        EQUB    $04
-
-.L926A
-        EQUB    $8C,$73,$8F,$7B,$90,$7B,$90,$7B
-        EQUB    $90,$00,$91,$A7,$8C,$1D,$91,$7C
-        EQUB    $8F
-
+        EQUW L8C05-1
+        EQUW L8F74-1
+        EQUW L907C-1
+        EQUW L907C-1
+        EQUW L907C-1
+        EQUW L9101-1
+        EQUW L8CA8-1
+        EQUW L911E-1
+        EQUW L8F7D-1
+        
 .L927B
         TAX
         LDA     #$9F
@@ -5865,18 +5876,26 @@ LFFFF   = $FFFF
         EQUB >(LA399-1)
         EQUB <(LA399-1)
 
+.SPEC_BASE
+.SPEC_LIST
         EQUS "<List Spec>"
         EQUB &00
+.SPEC_OB
         EQUS "<Ob Spec>"
         EQUB &00
+.SPEC_OBSTAR
         EQUS "<*Ob Spec*>"
         EQUB &00
+.SPEC_DRIVE
         EQUS "(<Drive>)"
         EQUB &00
+.SPEC_SPLP
         EQUS "<SP> <LP>"
         EQUB &00
+.SPEC_LWRE
         EQUS "(L)(W)(R)(E)"
         EQUB &00
+.SPEC_TITLE
         EQUS "<Title>"
         EQUB &00
 
