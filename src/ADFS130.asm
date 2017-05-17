@@ -329,34 +329,24 @@ LFFFF   = $FFFF
 
         org     $8000
 .BeebDisStartAddr
-.L8000
         EQUB    $00,$00,$00
 
-.L8003
         JMP     L9AA3
 
-.L8006
         EQUB    $82
 
-.L8007
         EQUB    $18,$30
 
-.L8009
         EQUS    "Acorn ADFS"
 
-.L8013
         EQUB    $00
 
-.L8014
         EQUS    "1.30"
 
-.L8018
         EQUB    $00
 
-.L8019
         EQUS    "(C)1983 Acorn"
 
-.L8026
         EQUB    $00
 
 .L8027
@@ -855,13 +845,10 @@ LFFFF   = $FFFF
 
         JSR     L8348
 
-.L82B1
         EQUB    $11
 
-.L82B2
         EQUS    "Escape"
 
-.L82B8
         EQUB    $00
 
 .L82B9
@@ -870,13 +857,10 @@ LFFFF   = $FFFF
 
         JSR     L8348
 
-.L82C0
         EQUB    $CD
 
-.L82C1
         EQUS    "Drive not ready"
 
-.L82D0
         EQUB    $00
 
 .L82D1
@@ -888,25 +872,19 @@ LFFFF   = $FFFF
         TAX
         JSR     L8353
 
-.L82DC
         EQUB    $C7
 
-.L82DD
         EQUS    "Disc error"
 
-.L82E7
         EQUB    $00
 
 .L82E8
         JSR     L832B
 
-.L82EB
         EQUB    $C9
 
-.L82EC
         EQUS    "Disc protected"
 
-.L82FA
         EQUB    $00
 
 .L82FB
@@ -1214,10 +1192,8 @@ LFFFF   = $FFFF
 
         RTS
 
-.L8499
         EQUB    $45
 
-.L849A
         EQUB    $2E,$0D,$53,$50,$2E,$0D
 
 .L84A0
@@ -1232,13 +1208,11 @@ LFFFF   = $FFFF
 .L84AC
         EQUB    $0D
 
-.L84AD
         EQUS    "SEY"
 
 .L84B0
         EQUB    $00
 
-.L84B1
         EQUS    "Hugo"
 
 .L84B5
@@ -1443,13 +1417,10 @@ LFFFF   = $FFFF
 
         JSR     L832B
 
-.L85CB
         EQUB    $99
 
-.L85CC
         EQUS    "Map full"
 
-.L85D4
         EQUB    $00
 
 .L85D5
@@ -1538,25 +1509,19 @@ LFFFF   = $FFFF
 .L8656
         JSR     L832B
 
-.L8659
         EQUB    $C6
 
-.L865A
         EQUS    "Disc full"
 
-.L8663
         EQUB    $00
 
 .L8664
         JSR     L832B
 
-.L8667
         EQUB    $98
 
-.L8668
         EQUS    "Compaction required"
 
-.L867B
         EQUB    $00
 
 .L867C
@@ -1702,13 +1667,10 @@ LFFFF   = $FFFF
 .L8737
         JSR     L8348
 
-.L873A
         EQUB    $CC
 
-.L873B
         EQUS    "Bad name"
 
-.L8743
         EQUB    $00
 
 .L8744
@@ -1882,10 +1844,8 @@ LFFFF   = $FFFF
 .L880B
         RTS
 
-.L880C
         EQUB    $01
 
-.L880D
         EQUB    $00,$0E,$FF,$FF,$08,$00,$00,$00
         EQUB    $02
 
@@ -2151,13 +2111,10 @@ LFFFF   = $FFFF
 .L8982
         JSR     L8348
 
-.L8985
         EQUB    $B0
 
-.L8986
         EQUS    "Bad rename"
 
-.L8990
         EQUB    $00
 
 .L8991
@@ -2537,13 +2494,10 @@ LFFFF   = $FFFF
 .L8BD7
         JSR     L8348
 
-.L8BDA
         EQUB    $D6
 
-.L8BDB
         EQUS    "Not found"
 
-.L8BE4
         EQUB    $00
 
 .L8BE5
@@ -2558,16 +2512,12 @@ LFFFF   = $FFFF
 .L8BF0
         JSR     L8348
 
-.L8BF3
         EQUB    $BD
 
-.L8BF4
         EQUS    "Access violation"
 
-.L8C04
         EQUB    $00
 
-.L8C05
         JSR     L8BB3
 
         BNE     L8BC8
@@ -2776,13 +2726,10 @@ LFFFF   = $FFFF
 
         JSR     L8348
 
-.L8D19
         EQUB    $C3
 
-.L8D1A
         EQUS    "Locked"
 
-.L8D20
         EQUB    $00
 
 .L8D21
@@ -2816,13 +2763,10 @@ LFFFF   = $FFFF
 .L8D53
         JSR     L8348
 
-.L8D56
         EQUB    $C2
 
-.L8D57
         EQUS    "Can't - File open"
 
-.L8D68
         EQUB    $00
 
 .L8D69
@@ -2936,19 +2880,15 @@ LFFFF   = $FFFF
 .L8DDE
         JSR     L8348
 
-.L8DE1
         EQUB    $FD
 
-.L8DE2
         EQUS    "Wild cards"
 
-.L8DEC
         EQUB    $00
 
 .L8DED
         EQUB    $7F
 
-.L8DEE
         EQUS    "^@:$&"
 
 .L8DF3
@@ -2986,13 +2926,10 @@ LFFFF   = $FFFF
 
         JSR     L8348
 
-.L8E21
         EQUB    $B3
 
-.L8E22
         EQUS    "Dir full"
 
-.L8E2A
         EQUB    $00
 
 .L8E2B
@@ -3300,13 +3237,10 @@ LFFFF   = $FFFF
 .L8FFA
         JSR     L832B
 
-.L8FFD
         EQUB    $A9
 
-.L8FFE
         EQUS    "Bad FS map"
 
-.L9008
         EQUB    $00
 
 .L9009
@@ -3397,14 +3331,11 @@ LFFFF   = $FFFF
 
         RTS
 
-.L9071
         EQUB    $01
 
-.L9072
         EQUB    $00,$0E,$FF,$FF,$0A,$00,$00,$00
         EQUB    $02,$00
 
-.L907C
         STA     L1023
         JSR     L8BE5
 
@@ -3557,13 +3488,10 @@ LFFFF   = $FFFF
 
         JSR     L8348
 
-.L915F
         EQUB    $B4
 
-.L9160
         EQUS    "Dir not empty"
 
-.L916D
         EQUB    $00
 
 .L916E
@@ -3611,13 +3539,10 @@ LFFFF   = $FFFF
 
         JSR     L8348
 
-.L91B0
         EQUB    $96
 
-.L91B1
         EQUS    "Can't delete CSD"
 
-.L91C1
         EQUB    $00
 
 .L91C2
@@ -3636,13 +3561,10 @@ LFFFF   = $FFFF
 
         JSR     L8348
 
-.L91DA
         EQUB    $97
 
-.L91DB
         EQUS    "Can't delete Library"
 
-.L91EF
         EQUB    $00
 
 .L91F0
@@ -3887,25 +3809,19 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-.L933D
         EQUB    $20
 
-.L933E
         EQUB    $A8
 
-.L933F
         LDA     L16FA
         JSR     L931B
 
         JSR     L92A0
 
-.L9348
         EQUB    $29
 
-.L9349
         EQUB    $0D,$44,$72,$69,$76,$65,$BA
 
-.L9350
         LDA     L1117
         ASL     A
         ROL     A
@@ -3923,25 +3839,19 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-.L936C
         EQUB    $4F
 
-.L936D
         EQUB    $70,$74,$69,$6F,$6E,$A0
 
-.L9373
         LDA     L0FFD
         JSR     L931B
 
         JSR     L92A0
 
-.L937C
         EQUB    $20
 
-.L937D
         EQUB    $A8
 
-.L937E
         LDX     L0FFD
         LDA     L941F,X
         STA     L00B6
@@ -3952,13 +3862,10 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-.L9392
         EQUB    $29
 
-.L9393
         EQUB    $0D,$44,$69,$72,$2E,$A0
 
-.L9399
         LDA     #$00
         STA     L00B6
         LDA     #$11
@@ -3968,14 +3875,11 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-.L93A9
         EQUB    $20
 
-.L93AA
         EQUB    $20,$20,$20,$20,$4C,$69,$62,$2E
         EQUB    $A0
 
-.L93B3
         LDA     #$0A
         STA     L00B6
         LDA     #$11
@@ -3985,10 +3889,8 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-.L93C3
         EQUB    $0D
 
-.L93C4
         EQUB    $8D
 
 .L93C5
@@ -4059,12 +3961,10 @@ LFFFF   = $FFFF
 .L941F
         EQUB    $23
 
-.L9420
         EQUB    $27,$2B,$2F,$4F,$66,$66,$20,$4C
         EQUB    $6F,$61,$64,$52,$75,$6E,$20,$45
         EQUB    $78,$65,$63
 
-.L9433
         JSR     L9471
 
 .L9436
@@ -4180,10 +4080,8 @@ LFFFF   = $FFFF
 
         JMP     L8287
 
-.L94CC
         EQUB    $A4
 
-.L94CD
         EQUB    $0D,$8D,$8D,$0D,$0D,$0D,$0D,$0D
         EQUB    $0D,$00,$00,$00,$00,$00,$00,$00
         EQUB    $00,$00,$05,$00,$00,$02,$00,$00
@@ -4320,13 +4218,10 @@ LFFFF   = $FFFF
 .L95A4
         JSR     L8348
 
-.L95A7
         EQUB    $C4
 
-.L95A8
         EQUS    "Already exists"
 
-.L95B6
         EQUB    $00
 
 .L95B7
@@ -4411,7 +4306,6 @@ LFFFF   = $FFFF
 .L9632
         EQUB    $00
 
-.L9633
         EQUB    $00,$00,$00,$00,$00,$00,$00,$00
         EQUB    $17,$FF,$FF,$00,$1C,$FF,$FF
 
@@ -4874,10 +4768,8 @@ LFFFF   = $FFFF
 .L9938
         JMP     L89D3
 
-.L993B
         EQUB    $5E
 
-.L993C
         EQUB    $0D,$20,$DF,$8F,$F0,$0F,$4C,$C8
         EQUB    $8B
 
@@ -5001,16 +4893,12 @@ LFFFF   = $FFFF
 
         JSR     L8348
 
-.L99DD
         EQUB    $92
 
-.L99DE
         EQUS    "Aborted"
 
-.L99E5
         EQUB    $00
 
-.L99E6
         LDA     L00B4
         PHA
         LDA     L00B5
@@ -5027,13 +4915,10 @@ LFFFF   = $FFFF
         STA     L00B4
         JSR     L92A0
 
-.L9A00
         EQUS    "Destroy ?"
 
-.L9A09
         EQUB    $A0
 
-.L9A0A
         LDX     #$03
 .L9A0C
         JSR     LFFE0
@@ -5083,7 +4968,6 @@ LFFFF   = $FFFF
 .L9A46
         EQUB    $24
 
-.L9A47
         EQUB    $20,$20,$20,$20,$20,$20,$20,$20
         EQUB    $20,$24,$20,$20,$20,$20,$20,$20
         EQUB    $20,$20,$20,$02,$00,$00,$00,$02
@@ -5104,10 +4988,8 @@ LFFFF   = $FFFF
 .L9A77
         RTS
 
-.L9A78
         EQUB    $7B
 
-.L9A79
         EQUB    $7D,$85,$4C,$2E,$24,$2E,$21,$42
         EQUB    $4F,$4F,$54,$0D,$45,$2E,$24,$2E
         EQUB    $21,$42,$4F,$4F,$54,$0D
@@ -5290,10 +5172,8 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-.L9B7B
         EQUS    "Acorn ADFS"
 
-.L9B85
         EQUB    $0D,$8D
 
 .L9B87
@@ -5485,10 +5365,8 @@ LFFFF   = $FFFF
         LDA     #$00
         RTS
 
-.L9CAB
         EQUB    $3A
 
-.L9CAC
         EQUB    $30,$2E,$4C,$49,$42,$2A,$0D
 
 .L9CB3
@@ -5503,7 +5381,6 @@ LFFFF   = $FFFF
 .L9CD6
         EQUB    $73,$66,$64,$61
 
-.L9CDA
         TYA
         PHA
         LDA     #$FF
@@ -5663,16 +5540,12 @@ LFFFF   = $FFFF
 .L9DA7
         JSR     L92A0
 
-.L9DAA
         EQUB    $0D
 
-.L9DAB
         EQUS    "Advanced DFS 1.30"
 
-.L9DBC
         EQUB    $8D
 
-.L9DBD
         RTS
 
         TYA
@@ -5685,13 +5558,10 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-.L9DCC
         EQUB    $20
 
-.L9DCD
         EQUS    " ADFS"
 
-.L9DD2
         EQUB    $8D
 
 .L9DD3
@@ -5751,13 +5621,10 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-.L9E15
         EQUS    " "
 
-.L9E16
         EQUB    $A0
 
-.L9E17
         LDY     #$09
 .L9E19
         LDA     L9EE3,X
@@ -5801,11 +5668,9 @@ LFFFF   = $FFFF
 .L9E48
         EQUB    $D7
 
-.L9E49
         EQUB    $8D,$99,$A3,$AF,$B9,$C3,$D0,$86
         EQUB    $B4,$84,$B5,$AA,$30,$15
 
-.L9E57
         CMP     #$09
         BCS     L9E6C
 
@@ -5823,16 +5688,13 @@ LFFFF   = $FFFF
 .L9E6D
         EQUB    $DC
 
-.L9E6E
         EQUB    $39,$98,$7E,$98,$CD,$3B,$D7,$93
 
 .L9E76
         EQUB    $9F
 
-.L9E77
         EQUB    $AD,$A3,$9E,$A3,$93,$A9,$9F,$A0
 
-.L9E7F
         JSR     L8305
 
         LDA     #$A2
@@ -5945,7 +5807,6 @@ LFFFF   = $FFFF
         EQUB    $45,$29,$00,$3C,$54,$69,$74,$6C
         EQUB    $65,$3E,$00
 
-.L9FD8
         LDX     #$30
         LDY     #$39
         RTS
@@ -5986,13 +5847,10 @@ LFFFF   = $FFFF
 .LA00A
         JSR     L8348
 
-.LA00D
         EQUB    $CB
 
-.LA00E
         EQUS    "Bad opt"
 
-.LA015
         EQUB    $00
 
 .LA016
@@ -6005,13 +5863,10 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-.LA024
         EQUS    "Free"
 
-.LA028
         EQUB    $8D
 
-.LA029
         JSR     LA1AA
 
         LDY     #$01
@@ -6029,10 +5884,8 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-.LA044
         EQUS    "Used"
 
-.LA048
         EQUB    $8D
 
 .LA049
@@ -6040,13 +5893,10 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-.LA04D
         EQUS    "Address :  Length"
 
-.LA05E
         EQUB    $8D
 
-.LA05F
         LDX     #$00
 .LA061
         CPX     L0FFE
@@ -6067,13 +5917,10 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-.LA07A
         EQUS    "  : "
 
-.LA07E
         EQUB    $A0
 
-.LA07F
         LDX     L00C6
         LDY     #$02
 .LA083
@@ -6098,13 +5945,10 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-.LA0A3
         EQUS    "Compaction recommended"
 
-.LA0B9
         EQUB    $8D
 
-.LA0BA
         RTS
 
         JSR     L9109
@@ -6139,10 +5983,8 @@ LFFFF   = $FFFF
         STA     L1117
         RTS
 
-.LA0EA
         EQUB    $00
 
-.LA0EB
         EQUB    $00,$17,$FF,$FF,$1B,$00,$00,$00
         EQUB    $00,$00
 
@@ -6205,41 +6047,31 @@ LFFFF   = $FFFF
 .LA149
         LDY     #$09
 .LA14B
-        LDA     LA154,Y
+        LDA     LA156-2,Y
         STA     L1100,X
         INX
         DEY
-.LA153
         BPL     LA14B
 
-        LA154   = LA153+1
         RTS
 
 .LA156
         EQUB    $0D
 
-.LA157
         EQUB    $22
 
-.LA158
         EQUB    $74
 
-.LA159
         EQUB    $65
 
-.LA15A
         EQUB    $73
 
-.LA15B
         EQUB    $6E
 
-.LA15C
         EQUB    $55
 
-.LA15D
         EQUB    $22
 
-.LA15E
         JSR     LA0F5
 
 .LA161
@@ -6277,10 +6109,8 @@ LFFFF   = $FFFF
 .LA19E
         RTS
 
-.LA19F
         EQUB    $00
 
-.LA1A0
         EQUB    $00,$17,$FF,$FF,$1B,$00,$00,$00
         EQUB    $01,$00
 
@@ -6316,13 +6146,10 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-.LA1DB
         EQUS    " Sectors ="
 
-.LA1E5
         EQUB    $A0
 
-.LA1E6
         LDX     #$1F
         STX     L1033
         LDA     #$00
@@ -6394,13 +6221,10 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-.LA24A
         EQUS    " Bytes"
 
-.LA250
         EQUB    $A0
 
-.LA251
         RTS
 
         JSR     LB4F5
@@ -6455,13 +6279,10 @@ LFFFF   = $FFFF
 .LA29B
         JSR     L8348
 
-.LA29E
         EQUB    $94
 
-.LA29F
         EQUS    "Bad compact"
 
-.LA2AA
         EQUB    $00
 
 .LA2AB
@@ -6619,16 +6440,12 @@ LFFFF   = $FFFF
 .LA389
         JSR     L8348
 
-.LA38C
         EQUB    $FE
 
-.LA38D
         EQUS    "Bad command"
 
-.LA398
         EQUB    $00
 
-.LA399
         LDA     L00B4
         STA     L00C0
         LDA     L00B5
@@ -6690,13 +6507,10 @@ LFFFF   = $FFFF
 
         JSR     L8348
 
-.LA3FA
         EQUB    $93
 
-.LA3FB
         EQUS    "Won't"
 
-.LA400
         EQUB    $00
 
 .LA401
@@ -7212,13 +7026,10 @@ LFFFF   = $FFFF
 
         JSR     L8351
 
-.LA6D0
         EQUB    $A9
 
-.LA6D1
         EQUS    "No directory"
 
-.LA6DD
         EQUB    $00
 
 .LA6DE
@@ -7244,13 +7055,10 @@ LFFFF   = $FFFF
 .LA6F9
         JSR     L832B
 
-.LA6FC
         EQUB    $A8
 
-.LA6FD
         EQUS    "Broken directory"
 
-.LA70D
         EQUB    $00
 
 .LA70E
@@ -7294,13 +7102,10 @@ LFFFF   = $FFFF
         STA     L10CE
         JSR     L8351
 
-.LA740
         EQUB    $AA
 
-.LA741
         EQUS    "Bad sum"
 
-.LA748
         EQUB    $00
 
 .LA749
@@ -7774,13 +7579,10 @@ LFFFF   = $FFFF
 .LAA35
         JSR     L8348
 
-.LAA38
         EQUB    $B7
 
-.LAA39
         EQUS    "Outside file"
 
-.LAA45
         EQUB    $00
 
 .LAA46
@@ -8008,13 +7810,10 @@ LFFFF   = $FFFF
         LDX     L10D4
         JSR     L8353
 
-.LABB5
         EQUB    $CA
 
-.LABB6
         EQUS    "Data lost, channel"
 
-.LABC8
         EQUB    $00
 
 .LABC9
@@ -8216,13 +8015,10 @@ LFFFF   = $FFFF
 .LACE9
         JSR     L8348
 
-.LACEC
         EQUB    $DE
 
-.LACED
         EQUS    "Channel"
 
-.LACF4
         EQUB    $00
 
 .LACF5
@@ -8304,16 +8100,12 @@ LFFFF   = $FFFF
         STA     L11AC,X
         JSR     L8348
 
-.LAD5E
         EQUB    $DF
 
-.LAD5F
         EQUS    "EOF"
 
-.LAD62
         EQUB    $00
 
-.LAD63
         STX     L00C3
         JSR     LACFE
 
@@ -8759,13 +8551,10 @@ LFFFF   = $FFFF
 .LB09D
         JSR     L8348
 
-.LB0A0
         EQUB    $C1
 
-.LB0A1
         EQUS    "Not open for update"
 
-.LB0B4
         EQUB    $00
 
 .LB0B5
@@ -8952,13 +8741,10 @@ LFFFF   = $FFFF
 
         JSR     L8348
 
-.LB1EE
         EQUB    $C0
 
-.LB1EF
         EQUS    "Too many open files"
 
-.LB202
         EQUB    $00
 
 .LB203
@@ -9362,13 +9148,10 @@ LFFFF   = $FFFF
 .LB4AE
         JSR     L8348
 
-.LB4B1
         EQUB    $C8
 
-.LB4B2
         EQUS    "Disc changed"
 
-.LB4BE
         EQUB    $00
 
 .LB4BF
@@ -10208,10 +9991,8 @@ LFFFF   = $FFFF
         PLP
         JMP     L8043
 
-.LB9FE
         EQUB    $2E
 
-.LB9FF
         EQUB    $0D
 
 .LBA00
@@ -11247,10 +11028,8 @@ LFFFF   = $FFFF
         AND     #$7F
         RTS
 
-.LBFF6
         EQUS    "and Hugo."
 
-.LBFFF
         EQUB    $0D
 
 .BeebDisEndAddr
