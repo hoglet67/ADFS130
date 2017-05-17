@@ -5281,9 +5281,9 @@ LFFFF   = $FFFF
         ORA     L111B
         BNE     L9C74
 
-        LDA     #$AB
+        LDA     #<L9CAB
         STA     L00B4
-        LDA     #$9C
+        LDA     #>L9CAB
         STA     L00B5
         JSR     L8FDF
 
@@ -5361,10 +5361,11 @@ LFFFF   = $FFFF
         LDA     #$00
         RTS
 
-        EQUB    $3A
+.L9CAB
+        EQUS    ":0.LIB*"
+        EQUB    $0D
 
-        EQUB    $30,$2E,$4C,$49,$42,$2A,$0D
-
+        
 .L9CB3
         EQUB    $1B,$FF,$1E,$FF,$21,$FF,$24,$FF
         EQUB    $27,$FF,$2A,$FF,$2D,$FF
