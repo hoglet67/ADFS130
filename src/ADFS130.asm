@@ -5373,32 +5373,32 @@ LFFFF   = $FFFF
         EQUB    $0D
 
 ;;  Vector Table
-.L9CB3 EQUW &FF1B
-       EQUW &FF1E
-       EQUW &FF21
-       EQUW &FF24
-       EQUW &FF27
-       EQUW &FF2A
-       EQUW &FF2D
+.L9CB3  EQUW &FF1B
+        EQUW &FF1E
+        EQUW &FF21
+        EQUW &FF24
+        EQUW &FF27
+        EQUW &FF2A
+        EQUW &FF2D
 
 ;; Extended Vector Table
-.L9CC1 EQUW L923E
-       EQUB $FF
-       EQUW LA955
-       EQUB $FF
-       EQUW LAD63
-       EQUB $FF
-       EQUW LB08F
-       EQUB $FF
-       EQUW LB57F
-       EQUB $FF
-       EQUW LB1B6
-       EQUB $FF
-       EQUW L9E50
-       EQUB $FF
+.L9CC1  EQUW L923E
+        EQUB $FF
+        EQUW LA955
+        EQUB $FF
+        EQUW LAD63
+        EQUB $FF
+        EQUW LB08F
+        EQUB $FF
+        EQUW LB57F
+        EQUB $FF
+        EQUW LB1B6
+        EQUB $FF
+        EQUW L9E50
+        EQUB $FF
 
 .L9CD6
-        EQUB    $73,$66,$64,$61
+        EQUS    "sfda"
 
 .L9CDA
         TYA
