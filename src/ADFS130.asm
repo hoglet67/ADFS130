@@ -2149,8 +2149,8 @@ LFFFF   = $FFFF
         STA     L1117
         LDA     #$FF
         STA     L102F
-        LDX     #$0C
-        LDY     #$88
+        LDX     #<L880C
+        LDY     #>L880C
         JSR     L828B
 
 .L89EA
@@ -5713,14 +5713,26 @@ LFFFF   = $FFFF
         RTS
 
 .L9E6D
-        EQUB    $DC
-
-        EQUB    $39,$98,$7E,$98,$CD,$3B,$D7,$93
-
+        EQUB <($9FDD-1)
+        EQUB <($AD3A-1)
+        EQUB <($A399-1)
+        EQUB <($9E7F-1)
+        EQUB <($A399-1)
+        EQUB <($93CE-1)
+        EQUB <($A93C-1)
+        EQUB <($9FD8-1)
+        EQUB <($A094-1)
+        
 .L9E76
-        EQUB    $9F
-
-        EQUB    $AD,$A3,$9E,$A3,$93,$A9,$9F,$A0
+        EQUB >($9FDD-1)
+        EQUB >($AD3A-1)
+        EQUB >($A399-1)
+        EQUB >($9E7F-1)
+        EQUB >($A399-1)
+        EQUB >($93CE-1)
+        EQUB >($A93C-1)
+        EQUB >($9FD8-1)
+        EQUB >($A094-1)
 
         JSR     L8305
 
