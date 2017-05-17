@@ -846,9 +846,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $11
-
         EQUS    "Escape"
-
         EQUB    $00
 
 .L82B9
@@ -858,9 +856,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $CD
-
         EQUS    "Drive not ready"
-
         EQUB    $00
 
 .L82D1
@@ -873,18 +869,14 @@ LFFFF   = $FFFF
         JSR     L8353
 
         EQUB    $C7
-
         EQUS    "Disc error"
-
         EQUB    $00
 
 .L82E8
         JSR     L832B
 
         EQUB    $C9
-
         EQUS    "Disc protected"
-
         EQUB    $00
 
 .L82FB
@@ -1419,9 +1411,7 @@ LFFFF   = $FFFF
         JSR     L832B
 
         EQUB    $99
-
         EQUS    "Map full"
-
         EQUB    $00
 
 .L85D5
@@ -1511,18 +1501,14 @@ LFFFF   = $FFFF
         JSR     L832B
 
         EQUB    $C6
-
         EQUS    "Disc full"
-
         EQUB    $00
 
 .L8664
         JSR     L832B
 
         EQUB    $98
-
         EQUS    "Compaction required"
-
         EQUB    $00
 
 .L867C
@@ -1669,9 +1655,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $CC
-
         EQUS    "Bad name"
-
         EQUB    $00
 
 .L8744
@@ -2108,9 +2092,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $B0
-
         EQUS    "Bad rename"
-
         EQUB    $00
 
 .L8991
@@ -2491,9 +2473,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $D6
-
         EQUS    "Not found"
-
         EQUB    $00
 
 .L8BE5
@@ -2509,9 +2489,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $BD
-
         EQUS    "Access violation"
-
         EQUB    $00
 
 .L8C05
@@ -2725,9 +2703,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $C3
-
         EQUS    "Locked"
-
         EQUB    $00
 
 .L8D21
@@ -2762,9 +2738,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $C2
-
         EQUS    "Can't - File open"
-
         EQUB    $00
 
 .L8D69
@@ -2879,9 +2853,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $FD
-
         EQUS    "Wild cards"
-
         EQUB    $00
 
 .L8DED
@@ -2925,9 +2897,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $B3
-
         EQUS    "Dir full"
-
         EQUB    $00
 
 .L8E2B
@@ -3238,9 +3208,7 @@ LFFFF   = $FFFF
         JSR     L832B
 
         EQUB    $A9
-
         EQUS    "Bad FS map"
-
         EQUB    $00
 
 .L9009
@@ -3493,9 +3461,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $B4
-
         EQUS    "Dir not empty"
-
         EQUB    $00
 
 .L916E
@@ -3544,9 +3510,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $96
-
         EQUS    "Can't delete CSD"
-
         EQUB    $00
 
 .L91C2
@@ -3566,9 +3530,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $97
-
         EQUS    "Can't delete Library"
-
         EQUB    $00
 
 .L91F0
@@ -4228,9 +4190,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $C4
-
         EQUS    "Already exists"
-
         EQUB    $00
 
 .L95B7
@@ -4905,9 +4865,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $92
-
         EQUS    "Aborted"
-
         EQUB    $00
 
 .L99E6
@@ -5936,9 +5894,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $CB
-
         EQUS    "Bad opt"
-
         EQUB    $00
 
 .LA016
@@ -6376,9 +6332,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $94
-
         EQUS    "Bad compact"
-
         EQUB    $00
 
 .LA2AB
@@ -6537,9 +6491,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $FE
-
         EQUS    "Bad command"
-
         EQUB    $00
 
 .LA399
@@ -6605,9 +6557,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $93
-
         EQUS    "Won't"
-
         EQUB    $00
 
 .LA401
@@ -7158,9 +7108,7 @@ LFFFF   = $FFFF
         JSR     L832B
 
         EQUB    $A8
-
         EQUS    "Broken directory"
-
         EQUB    $00
 
 .LA70E
@@ -7683,9 +7631,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $B7
-
         EQUS    "Outside file"
-
         EQUB    $00
 
 .LAA46
@@ -7914,9 +7860,7 @@ LFFFF   = $FFFF
         JSR     L8353
 
         EQUB    $CA
-
         EQUS    "Data lost, channel"
-
         EQUB    $00
 
 .LABC9
@@ -8119,9 +8063,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $DE
-
         EQUS    "Channel"
-
         EQUB    $00
 
 .LACF5
@@ -8204,9 +8146,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $DF
-
         EQUS    "EOF"
-
         EQUB    $00
 
         STX     L00C3
@@ -8655,9 +8595,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $C1
-
         EQUS    "Not open for update"
-
         EQUB    $00
 
 .LB0B5
@@ -8845,9 +8783,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $C0
-
         EQUS    "Too many open files"
-
         EQUB    $00
 
 .LB203
@@ -9252,9 +9188,7 @@ LFFFF   = $FFFF
         JSR     L8348
 
         EQUB    $C8
-
         EQUS    "Disc changed"
-
         EQUB    $00
 
 .LB4BF
