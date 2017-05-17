@@ -3809,14 +3809,12 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-        EQUB    $20
-
-        EQUB    $A8
+        EQUB    $20, $A8
 
         LDX     L0FFD
         LDA     L941F,X
         STA     L00B6
-        LDA     #$94
+        LDA     #>L9423
         STA     L00B7
         LDX     #$04
         JSR     L9287
@@ -3914,12 +3912,17 @@ LFFFF   = $FFFF
         JMP     L89D3
 
 .L941F
-        EQUB    $23
+        EQUB    <L9423,<L9427,<L942B,<L942F
 
-        EQUB    $27,$2B,$2F,$4F,$66,$66,$20,$4C
-        EQUB    $6F,$61,$64,$52,$75,$6E,$20,$45
-        EQUB    $78,$65,$63
-
+.L9423
+        EQUS    "Off "
+.L9427
+        EQUS    "Load"
+.L942B
+        EQUS    "Run "
+.L942F
+        EQUS    "Exec"
+        
 .L9433
         JSR     L9471
 
@@ -4037,7 +4040,6 @@ LFFFF   = $FFFF
         JMP     L8287
 
         EQUB    $A4
-
         EQUB    $0D,$8D,$8D,$0D,$0D,$0D,$0D,$0D
         EQUB    $0D,$00,$00,$00,$00,$00,$00,$00
         EQUB    $00,$00,$05,$00,$00,$02,$00,$00
@@ -4259,10 +4261,8 @@ LFFFF   = $FFFF
         JMP     L8F80
 
 .L9632
-        EQUB    $00
-
         EQUB    $00,$00,$00,$00,$00,$00,$00,$00
-        EQUB    $17,$FF,$FF,$00,$1C,$FF,$FF
+        EQUB    $00,$17,$FF,$FF,$00,$1C,$FF,$FF
 
 .L9642
         LDA     L102F
@@ -4922,7 +4922,6 @@ LFFFF   = $FFFF
 
 .L9A46
         EQUB    $24
-
         EQUB    $20,$20,$20,$20,$20,$20,$20,$20
         EQUB    $20,$24,$20,$20,$20,$20,$20,$20
         EQUB    $20,$20,$20,$02,$00,$00,$00,$02
@@ -4942,13 +4941,23 @@ LFFFF   = $FFFF
         CMP     LFC40
 .L9A77
         RTS
+;;
+;; Boot command offset bytes
+;; -------------------------
+.L9A78 EQUB <L9A7B      ;; Option 1 at L9A7B
+       EQUB <L9A7D      ;; Option 2 at L9A7D
+       EQUB <L9A85      ;; Option 3 at L9A85
+;;
+;; Boot commands
+;; -------------
+.L9A7B EQUS "L."        ;; Start of *Load option
 
-        EQUB    $7B
+.L9A7D EQUS "$.!BOOT"   ;; End of *Load and *Run option
+       EQUB &0D
 
-        EQUB    $7D,$85,$4C,$2E,$24,$2E,$21,$42
-        EQUB    $4F,$4F,$54,$0D,$45,$2E,$24,$2E
-        EQUB    $21,$42,$4F,$4F,$54,$0D
-
+.L9A85 EQUS "E.$.!BOOT" ;; *Exec option
+       EQUB &0D
+        
 .L9A8F
         EQUB    $B7,$CE,$F0,$40,$D9,$77,$B7,$B7
         EQUB    $18,$BD
