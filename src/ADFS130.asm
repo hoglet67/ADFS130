@@ -6175,19 +6175,8 @@ ENDIF
 
 .LA156
         EQUB    $0D
-
         EQUB    $22
-
-        EQUB    $74
-
-        EQUB    $65
-
-        EQUB    $73
-
-        EQUB    $6E
-
-        EQUB    $55
-
+        EQUS    "tesnU"
         EQUB    $22
 
 .LA15E
