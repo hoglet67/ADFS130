@@ -3965,6 +3965,7 @@ LFFFF   = $FFFF
         EQUB    $6F,$61,$64,$52,$75,$6E,$20,$45
         EQUB    $78,$65,$63
 
+.L9433
         JSR     L9471
 
 .L9436
@@ -4188,6 +4189,7 @@ LFFFF   = $FFFF
         STA     L102F
         JMP     L89D3
 
+.L9570
         LDA     #$FF
         LDY     #$00
         JSR     LA955
@@ -4768,10 +4770,12 @@ LFFFF   = $FFFF
 .L9938
         JMP     L89D3
 
-        EQUB    $5E
+        EQUB    $5E, $0D
 
-        EQUB    $0D,$20,$DF,$8F,$F0,$0F,$4C,$C8
-        EQUB    $8B
+.L993D
+        JSR     L8FDF
+        BEQ     L9951
+        JMP     L8BC8
 
 .L9945
         LDY     #$02
@@ -4899,6 +4903,7 @@ LFFFF   = $FFFF
 
         EQUB    $00
 
+.L99E6
         LDA     L00B4
         PHA
         LDA     L00B5
@@ -5770,50 +5775,95 @@ LFFFF   = $FFFF
                 
 .L9EE3
         EQUS "ACCESS"
-        EQUB $99,$3C,$16
+        EQUB >(L993D-1)
+        EQUB <(L993D-1)
+        EQUB $16
         EQUS "BACK"
-        EQUB $A4,$96,$00
+        EQUB >(LA497-1)
+        EQUB <(LA497-1)
+        EQUB $00
         EQUS "BYE"
-        EQUB $A0,$C2,$00
+        EQUB >(LA0C3-1)
+        EQUB <(LA0C3-1)
+        EQUB $00
         EQUS "CDIR"
-        EQUB $95,$6F,$20
+        EQUB >(L9570-1)
+        EQUB <(L9570-1)
+        EQUB $20
         EQUS "CLOSE"
-        EQUB $B1,$B2,$00
+        EQUB >(LB1B3-1)
+        EQUB <(LB1B3-1)
+        EQUB $00
         EQUS "COMPACT"
-        EQUB $A2,$75,$50
+        EQUB >(LA276-1)
+        EQUB <(LA276-1)
+        EQUB $50
         EQUS "COPY"
-        EQUB $A8,$1C,$13
+        EQUB >(LA81D-1)
+        EQUB <(LA81D-1)
+        EQUB $13
         EQUS "DELETE"
-        EQUB $A0,$BA,$20
+        EQUB >(LA0BB-1)
+        EQUB <(LA0BB-1)
+        EQUB $20
         EQUS "DESTROY"
-        EQUB $99,$E5,$10
+        EQUB >(L99E6-1)
+        EQUB <(L99E6-1)
+        EQUB $10
         EQUS "DIR"
-        EQUB $95,$3E,$20
+        EQUB >(L953F-1)
+        EQUB <(L953F-1)
+        EQUB $20
         EQUS "DISMOUNT"
-        EQUB $A1,$10,$40
+        EQUB >(LA111-1)
+        EQUB <(LA111-1)
+        EQUB $40
         EQUS "EX"
-        EQUB $94,$32,$30
+        EQUB >(L9433-1)
+        EQUB <(L9433-1)
+        EQUB $30
         EQUS "FREE"
-        EQUB $A0,$1A,$00
+        EQUB >(LA01B-1)
+        EQUB <(LA01B-1)
+        EQUB $00
         EQUS "INFO"
-        EQUB $94,$E6,$10
+        EQUB >(L94E7-1)
+        EQUB <(L94E7-1)
+        EQUB $10
         EQUS "LCAT"
-        EQUB $A4,$7E,$00
+        EQUB >(LA47F-1)
+        EQUB <(LA47F-1)
+        EQUB $00
         EQUS "LEX"
-        EQUB $A4,$8A,$00
+        EQUB >(LA48B-1)
+        EQUB <(LA48B-1)
+        EQUB $00
         EQUS "LIB"
-        EQUB $A4,$43,$30
+        EQUB >(LA444-1)
+        EQUB <(LA444-1)
+        EQUB $30
         EQUS "MAP"
-        EQUB $A0,$49,$00
+        EQUB >(LA04A-1)
+        EQUB <(LA04A-1)
+        EQUB $00
         EQUS "MOUNT"
-        EQUB $A1,$5D,$40
+        EQUB >(LA15E-1)
+        EQUB <(LA15E-1)
+        EQUB $40
         EQUS "REMOVE"
-        EQUB $91,$08,$20
+        EQUB >(L9109-1)
+        EQUB <(L9109-1)
+        EQUB $20
         EQUS "RENAME"
-        EQUB $A5,$02,$22
+        EQUB >(LA503-1)
+        EQUB <(LA503-1)
+        EQUB $22
         EQUS "TITLE"
-        EQUB $A2,$51,$70
-        EQUB $A3,$98
+        EQUB >(LA252-1)
+        EQUB <(LA252-1)
+        EQUB $70
+        EQUB >(LA399-1)
+        EQUB <(LA399-1)
 
         EQUS "<List Spec>"
         EQUB &00
@@ -5880,6 +5930,7 @@ LFFFF   = $FFFF
         LDA     #$20
         JMP     LFFEE
 
+.LA01B
         JSR     LA1AA
 
         JSR     LA1C6
@@ -5914,6 +5965,7 @@ LFFFF   = $FFFF
 .LA049
         RTS
 
+.LA04A
         JSR     L92A0
 
         EQUS    "Address :  Length"
@@ -5974,12 +6026,14 @@ LFFFF   = $FFFF
 
         RTS
 
+.LA0BB
         JSR     L9109
 
         BNE     LA049
 
         JMP     L8BD7
 
+.LA0C3
         LDA     L1117
         PHA
         TAX
@@ -6032,6 +6086,7 @@ LFFFF   = $FFFF
 .LA110
         RTS
 
+.LA111
         JSR     LA0F5
 
         LDX     #$09
@@ -6095,6 +6150,7 @@ LFFFF   = $FFFF
 
         EQUB    $22
 
+.LA15E
         JSR     LA0F5
 
 .LA161
@@ -6250,6 +6306,7 @@ LFFFF   = $FFFF
 
         RTS
 
+.LA252
         JSR     LB4F5
 
         JSR     L8FEA
@@ -6276,6 +6333,7 @@ LFFFF   = $FFFF
 
         JMP     L8F86
 
+.LA276
         JSR     LA4CF
 
         LDY     #$00
@@ -6469,6 +6527,7 @@ LFFFF   = $FFFF
 
         EQUB    $00
 
+.LA399
         LDA     L00B4
         STA     L00C0
         LDA     L00B5
@@ -6579,6 +6638,7 @@ LFFFF   = $FFFF
         LDA     #$04
         JMP     L0406
 
+.LA444
         JSR     L947F
 
         LDY     #$09
@@ -6620,6 +6680,7 @@ LFFFF   = $FFFF
 
         RTS
 
+.LA47F
         JSR     LA460
 
         JSR     LA473
@@ -6628,6 +6689,7 @@ LFFFF   = $FFFF
 
         JMP     L89D3
 
+.LA48B
         JSR     LA460
 
         JSR     LA473
@@ -6636,6 +6698,7 @@ LFFFF   = $FFFF
 
         JMP     L89D3
 
+.LA497
         LDY     #$03
 .LA499
         LDA     L111C,Y
@@ -6726,6 +6789,7 @@ LFFFF   = $FFFF
 .LA500
         JMP     L8982
 
+.LA503
         LDA     L00B4
         PHA
         LDA     L00B5
@@ -7283,6 +7347,7 @@ LFFFF   = $FFFF
         LDY     #$88
         JMP     L828B
 
+.LA81D
         LDA     #$7F
         STA     L00B8
         LDA     #$10
