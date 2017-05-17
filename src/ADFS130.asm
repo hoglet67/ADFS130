@@ -3923,7 +3923,7 @@ LFFFF   = $FFFF
         EQUS    "Run "
 .L942F
         EQUS    "Exec"
-        
+
 .L9433
         JSR     L9471
 
@@ -4958,7 +4958,7 @@ LFFFF   = $FFFF
 
 .L9A85 EQUS "E.$.!BOOT" ;; *Exec option
        EQUB &0D
-        
+
 ;;
 ;;
 ;; SERVICE CALL HANDLERS
@@ -5374,7 +5374,7 @@ LFFFF   = $FFFF
        EQUW &FF27
        EQUW &FF2A
        EQUW &FF2D
-        
+
 ;; Extended Vector Table
 .L9CC1 EQUW L923E
        EQUB $FF
@@ -6069,8 +6069,8 @@ ENDIF
         LDA     #$60
         STA     L1117
 .LA0D3
-        LDX     #$EA
-        LDY     #$A0
+        LDX     #<LA0EA
+        LDY     #>LA0EA
         JSR     L8089
 
         LDA     L1117
@@ -6083,10 +6083,9 @@ ENDIF
         STA     L1117
         RTS
 
-        EQUB    $00
-
-        EQUB    $00,$17,$FF,$FF,$1B,$00,$00,$00
-        EQUB    $00,$00
+.LA0EA
+        EQUB    $00,$00,$17,$FF,$FF,$1B,$00,$00
+        EQUB    $00,$00,$00
 
 .LA0F5
         JSR     LA4CF
@@ -6212,7 +6211,7 @@ ENDIF
         RTS
 
 .LA19F
-        EQUB    $00,$00,$17,$FF,$FF,$1B,$00,$00        
+        EQUB    $00,$00,$17,$FF,$FF,$1B,$00,$00
         EQUB    $00,$01,$00
 
 .LA1AA
@@ -8199,7 +8198,7 @@ ENDIF
         EQUS    "EOF"
         EQUB    $00
 
-.LAD63        
+.LAD63
         STX     L00C3
         JSR     LACFE
 
