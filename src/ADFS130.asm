@@ -6179,8 +6179,8 @@ ENDIF
 .LA161
         LDA     L106F
         STA     L1117
-        LDX     #$9F
-        LDY     #$A1
+        LDX     #<LA19F
+        LDY     #>LA19F
         JSR     L8089
 
         LDA     #$AA
@@ -6211,10 +6211,9 @@ ENDIF
 .LA19E
         RTS
 
-        EQUB    $00
-
-        EQUB    $00,$17,$FF,$FF,$1B,$00,$00,$00
-        EQUB    $01,$00
+.LA19F
+        EQUB    $00,$00,$17,$FF,$FF,$1B,$00,$00        
+        EQUB    $00,$01,$00
 
 .LA1AA
         LDA     #$00
