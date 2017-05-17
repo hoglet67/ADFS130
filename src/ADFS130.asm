@@ -1192,9 +1192,10 @@ LFFFF   = $FFFF
 
         RTS
 
-        EQUB    $45
-
-        EQUB    $2E,$0D,$53,$50,$2E,$0D
+        EQUS    "E."
+        EQUB    $0D
+        EQUS    "SP."
+        EQUB    $0D
 
 .L84A0
         LDY     #$FF
@@ -1844,13 +1845,8 @@ LFFFF   = $FFFF
 .L880B
         RTS
 
-        EQUB    $01
-
-        EQUB    $00,$0E,$FF,$FF,$08,$00,$00,$00
-        EQUB    $02
-
-.L8816
-        EQUB    $00
+        EQUB    $01,$00,$0E,$FF,$FF,$08,$00,$00
+        EQUB    $00,$02,$00
 
 .L8817
         EQUB    $01,$00,$12,$FF,$FF,$08,$00,$00
@@ -7319,7 +7315,7 @@ LFFFF   = $FFFF
         STA     L00B6
         LDX     #$0B
 .LA7D6
-        LDA     L8816,X
+        LDA     L8817-1,X
         STA     L1014,X
         DEX
         BNE     LA7D6
@@ -7342,7 +7338,7 @@ LFFFF   = $FFFF
 .LA7F5
         LDX     #$0B
 .LA7F7
-        LDA     L8816,X
+        LDA     L8817-1,X
         STA     L1014,X
         DEX
         BNE     LA7F7
