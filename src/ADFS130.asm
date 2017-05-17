@@ -1,7 +1,49 @@
+; ************************************************************************
+; ADFS 1.30/ADFS 1.33 Disassembly
+;
+; (c) 2017 David Banks
+; ************************************************************************
+
+; ************************************************************************
+; IDE Patch
+;
+; > IDEPatch 1.18
+; J.G.Harston, M.Firth
+; Patch ADFS 1.30 to access IDE devices
+; v1.10 Trial version, incorporates context preservation on Ctrl-Break
+; v1.11 Verified with real hardware
+; v1.13 Stack params, do one sector at a time
+; v1.14 IDE transfers done twice to avoid DRQ bug, Tube works
+; v1.15 SetGeo uses correct drive, errors translated
+; v1.16 Automatically finds Library directory
+; v1.17 Two drives per device, no wait for spin-up on power-on
+; v1.18 Ported to update ADFS 1.30 instead of 1.50
+;
+
+; Enable the IDE Patch
+PATCH_IDE = 1
+
+; Don't preseve context on Ctrl-Break
+PRESERVE_CONTEXT = 0
+
+; Note: this generates a version with the same md5sum as ADFS133
+; distributed with Data Centre: c7714bd93602fdc11d2cdaab4af03b07
+; ************************************************************************
+
 L0000   = $0000
 L0001   = $0001
 L0002   = $0002
 L0003   = $0003
+L007F   = $007F
+L0080   = $0080
+L0081   = $0081
+L0082   = $0082
+L0083   = $0083
+L0084   = $0084
+L0085   = $0085
+L0086   = $0086
+L0087   = $0087
+L0088   = $0088
 L00A0   = $00A0
 L00A1   = $00A1
 L00A2   = $00A2
@@ -309,6 +351,10 @@ LFC40   = $FC40
 LFC41   = $FC41
 LFC42   = $FC42
 LFC43   = $FC43
+LFC44   = $FC44
+LFC45   = $FC45
+LFC46   = $FC46
+LFC47   = $FC47
 LFE30   = $FE30
 LFE44   = $FE44
 LFE80   = $FE80
@@ -327,9 +373,27 @@ LFFF4   = $FFF4
 LFFF7   = $FFF7
 LFFFF   = $FFFF
 
-MACRO INSERT_VERSION
+IF PATCH_IDE
+
+MACRO INSERT_VERSION_STR
+        EQUS    "1.33"
+ENDMACRO
+
+MACRO INSERT_VERSION_BIN
+        EQUS    $33
+ENDMACRO
+
+ELSE
+
+MACRO INSERT_VERSION_STR
         EQUS    "1.30"
 ENDMACRO
+
+MACRO INSERT_VERSION_BIN
+        EQUS    $30
+ENDMACRO
+
+ENDIF
 
         org     $8000
 
@@ -341,12 +405,12 @@ ENDMACRO
 
         EQUB    $82
         EQUB    <L8018
-        EQUB    $30
+        INSERT_VERSION_BIN
 
         EQUS    "Acorn ADFS"
         EQUB    $00
 
-        INSERT_VERSION
+        INSERT_VERSION_STR
 
 .L8018
         EQUB    $00
@@ -396,9 +460,17 @@ ENDMACRO
 .L8056
         PHP
 .L8057
+IF PATCH_IDE
+        LDA     LFC47
+ELSE
         LDA     LFC41
+ENDIF
         STA     L00CC
+IF PATCH_IDE
+        LDA     LFC47
+ELSE
         LDA     LFC41
+ENDIF
         CMP     L00CC
         BNE     L8057
 
@@ -406,6 +478,41 @@ ENDMACRO
         RTS
 
 .L8065
+
+IF PATCH_IDE
+        RTS
+        NOP
+        NOP
+        NOP
+        NOP
+
+IF PRESERVE_CONTEXT
+.ReadBreak
+        LDA     L028D
+        AND     #$01
+        RTS
+ELSE
+        NOP
+        NOP
+        NOP
+        NOP
+        NOP
+        NOP
+ENDIF
+        NOP
+
+.WaitForData
+        LDA     LFC47
+        AND     #$08
+        BEQ     WaitForData
+        RTS
+
+.MountCheck
+        JSR     LA15E
+        JMP     L9B38
+
+ELSE
+
         LDY     #$00
 .L8067
         LDA     #$01
@@ -424,6 +531,8 @@ ENDMACRO
 
         AND     #$02
         BEQ     L8078
+
+ENDIF
 
 .L807F
         RTS
@@ -517,8 +626,12 @@ ENDMACRO
         ORA     L1117
         BMI     L80CC
 
+IF PATCH_IDE
+        LDY     #$00
+        NOP
+ELSE
         JSR     L8065
-
+ENDIF
         INY
         LDA     (L00B0),Y
         STA     L00B2
@@ -539,6 +652,163 @@ ENDMACRO
         JSR     L8027
 
 .L8114
+IF PATCH_IDE
+
+        JMP     BYE
+        NOP
+        NOP
+        NOP
+        NOP
+
+.CommandSaveLp1
+        LDY     #$09
+
+.CommandSaveLp
+        LDA     L007F,Y
+        PHA
+        LDA     (L00B0),Y
+        STA     L007F,Y
+        DEY
+        BNE     CommandSaveLp
+
+        LDA     L00B0
+        PHA
+        LDA     L00B1
+        PHA
+        JSR     UpdateDrive
+        STA     L00B0
+        STY     L00B1
+        PHP
+        JSR     SetGeometry
+        PLP
+
+.CommandLoop
+        LDX     #$02
+
+.Twice
+        BIT     L00CD
+        BVC     CommandStart
+        PHP
+        TXA
+        PHA
+        LDX     #$27
+        LDY     #$10
+        LDA     #$00
+        ROL     A
+        EOR     #$01
+        JSR     SetTubeAction+1
+        PLA
+        TAX
+        PLP
+
+.CommandStart
+        JSR     SetSector
+
+.TransferLoop
+        JSR     WaitForData
+        AND     #$21
+        BNE     TransDone
+        BIT     L00CD
+        BVS     TransTube
+        BCC     IORead
+
+.IOWrite
+        LDA     (L0080),Y
+        STA     LFC40
+        JMP     TransferByte
+
+.IORead
+        LDA     LFC40
+        STA     (L0080),Y
+        JMP     TransferByte
+
+.TransTube
+        BCC     TubeRead
+
+.TubeWrite
+        LDA     LFEE5
+        STA     LFC40
+        JMP     TransferByte
+
+.TubeRead
+        LDA     LFC40
+        STA     LFEE5
+        JMP     TransferByte
+
+.CommandLoop1
+        JMP     CommandLoop
+
+.L818A
+
+.CommandDone
+        JSR     GetResult
+
+.CommandExit
+        PHA
+        JSR     L8043
+        PLA
+        LDX     L00B0
+        LDY     L00B1
+        AND     #$7F
+        RTS
+
+.TransferByte
+        INY
+        BNE     TransferLoop
+        DEX
+        BNE     Twice
+        INC     L0081
+        LDA     LFC47
+        AND     #$21
+        BNE     TransDone
+        INC     L1028
+        BNE     TubeAddr
+        INC     L1029
+        BNE     TubeAddr
+        INC     L102A
+
+.TubeAddr
+        INC     L0087
+        BNE     TransCount
+        INC     L0086
+        BNE     TransCount
+        INC     L0085
+
+.TransCount
+        DEC     L0088
+        BNE     CommandLoop1
+
+.TransDone
+        PLA
+        STA     L00B1
+        PLA
+        STA     L00B0
+        INY
+
+.CommandRestore
+        PLA
+        STA     L007F,Y
+        INY
+        CPY     #$0A
+        BNE     CommandRestore
+        BEQ     CommandDone
+
+.SetGeometry
+        JSR     WaitNotBusy
+        LDA     #$40
+        STA     LFC42
+        STA     LFC43
+        LDY     #$06
+        LDA     (L00B0),Y
+        LSR     A
+        LSR     A
+        ORA     #$03
+        JSR     SetDriveA
+        LDA     #$91
+        BNE     SetCmd
+.SetTubeAction
+
+ELSE
         LDY     #$05
         LDA     (L00B0),Y
         JSR     L831B
@@ -704,12 +974,15 @@ ENDMACRO
         LDY     #$10
         RTS
 
+ENDIF
+
 .L81EF
         SEI
 .L81F0
         JSR     L0406
 
         LDY     #$00
+
         JSR     L81F8
 
 .L81F8
@@ -717,6 +990,115 @@ ENDMACRO
 
 .L81FB
         RTS
+
+IF PATCH_IDE
+
+.SetSector
+        PHP
+        JSR     WaitNotBusy
+        LDY     #$08
+        LDA     #$01
+        STA     LFC42
+        CLC
+        LDA     (L00B0),Y
+        AND     #$3F
+        ADC     #$01
+        STA     LFC43
+        DEY
+        LDA     (L00B0),Y
+        ADC     #$00
+        STA     LFC44
+        DEY
+        LDA     (L00B0),Y
+        JSR     SetCylinder
+        INY
+        INY
+        EOR     (L00B0),Y
+        AND     #$02
+        EOR     (L00B0),Y
+        JSR     SetDrive
+        DEY
+        DEY
+        DEY
+        LDA     (L00B0),Y
+
+.SetCommand
+        AND     #$02
+        PHA
+        EOR     #$02
+        LSR     A
+        LSR     A
+        PLA
+        ASL     A
+        ASL     A
+        ASL     A
+        ORA     #$20
+        LDY     #$0
+        PLP
+
+.SetCmd
+        STA     LFC47
+        RTS
+
+.SetDrive
+        ROL     A
+        ROL     A
+        ROL     A
+
+.SetDriveA
+        AND     #$13
+        STA     LFC46
+        RTS
+
+
+.SetCylinder
+        PHA
+        AND     #$3F
+        ADC     #$00
+        STA     LFC45
+        PLA
+        ROL     A
+        ROL     A
+        ROL     A
+        ROL     A
+        RTS
+
+
+.SetRandom
+        JSR     SetCylinder
+        EOR     L1001,X
+        AND     #$02
+        EOR     L1001,X
+        JSR     SetDrive
+        PLA
+        JMP     SetCommand1
+
+.GetResult
+        LDA     LFC47
+        AND     #$21
+        BEQ     GetResOk
+        ORA     LFC41
+        LDX     #$FF
+
+.GetResLp
+        INX
+        ROR     A
+        BCC     GetResLp
+        LDA     ResultCodes,X
+
+.GetResOk
+        RTS
+
+        NOP
+        NOP
+        NOP
+        NOP
+        NOP
+        NOP
+        NOP
+
+ELSE
+
 
 .L81FC
         LDX     #$27
@@ -817,6 +1199,8 @@ ENDMACRO
         LDA     #$FF
         JMP     L81B1
 
+ENDIF
+
 .L8287
         LDX     #$15
         LDY     #$10
@@ -897,16 +1281,34 @@ ENDMACRO
         RTS
 
 .L8305
+IF PATCH_IDE
+.FakeComplete
+        LDA     L00CD
+        AND     #$FE
+        STA     L00CD
+        RTS
+ELSE
         LDA     #$01
         PHP
         CLI
         PLP
         BIT     L00CD
+ENDIF
         BNE     L8305
-
         RTS
 
 .L830F
+IF PATCH_IDE
+.WaitNotBusy
+        PHP
+.IDEstatus
+        JSR     L8056
+        AND     #$C0
+        CMP     #$40
+        BNE     IDEstatus
+        PLP
+        RTS
+ELSE
         PHA
 .L8310
         JSR     L8056
@@ -917,6 +1319,7 @@ ENDMACRO
         PLA
         BIT     L00CC
         RTS
+ENDIF
 
 .L831B
         JSR     L830F
@@ -2396,6 +2799,18 @@ ENDIF
         STA     L101E
         LDA     #$08
         STA     L101A
+
+IF PATCH_IDE
+        TXA
+        PHA
+        JSR      SetGeometry
+        JSR      SetSector
+        PLA
+        TAX
+        NOP
+        NOP
+        NOP
+ELSE
         LDY     #$00
 .L8B74
         LDA     L101A,Y
@@ -2404,6 +2819,7 @@ ENDIF
         INY
         CPY     #$06
         BNE     L8B74
+ENDIF
 
         BIT     L00CD
         BVC     L8B90
@@ -3207,7 +3623,14 @@ ENDIF
         RTS
 
 .L8FEA
+IF PATCH_IDE
+        RTS
+
+;; Junk bytes....
+        EQUB    $09,$90
+ELSE
         JSR     L9009
+ENDIF
 
         JSR     L905C
 
@@ -4949,6 +5372,27 @@ ENDIF
         EQUB    $00,$00,$00,$02
 
 .L9A63
+IF PATCH_IDE
+        LDA     LFC47
+        CLC
+        ADC     #$01
+        BEQ     DriveNotPresent
+        LDA     #$00
+        RTS
+
+.DriveNotPresent
+        SEC
+        SBC     #$01
+        RTS
+
+        NOP
+        NOP
+        NOP
+        NOP
+        NOP
+        NOP
+
+ELSE
         LDA     #$5A
         JSR     L9A6C
 
@@ -4962,6 +5406,9 @@ ENDIF
         CMP     LFC40
 .L9A77
         RTS
+
+ENDIF
+
 ;;
 ;; Boot command offset bytes
 ;; -------------------------
@@ -4977,10 +5424,10 @@ ENDIF
 .L9A7B EQUS "L."        ;; Start of *Load option
 
 .L9A7D EQUS "$.!BOOT"   ;; End of *Load and *Run option
-       EQUB &0D
+       EQUB $0D
 
 .L9A85 EQUS "E.$.!BOOT" ;; *Exec option
-       EQUB &0D
+       EQUB $0D
 
 .boot_command_table_end
 
@@ -5093,7 +5540,11 @@ ENDIF
         TYA
         STA     L0DF0,X
         PHA
+IF PRESERVE_CONTEXT
+        JSR     ReadBreak
+ELSE
         LDA     L028D
+ENDIF
         BEQ     L9B10
 
         JSR     LA70E
@@ -5164,7 +5615,11 @@ ENDIF
 
         BEQ     L9B6E
 
+IF PRESERVE_CONTEXT
+        JSR     ReadBreak
+ELSE
         LDA     L028D
+ENDIF
         BEQ     L9B6E
 
         LDX     #$44
@@ -5302,6 +5757,19 @@ ENDIF
 
         JSR     LB47C
 
+IF PATCH_IDE
+        LDA     L111B
+        CLC
+        ADC     #$01
+        BNE     L9C74
+        LDA     L00CD
+        AND     #$20
+        BEQ     L9C74
+        BNE     L9C3B
+        RTS
+        RTS
+.L9C3B
+ELSE
         LDA     L1118
         CMP     #$02
         BNE     L9C74
@@ -5310,6 +5778,7 @@ ENDIF
         ORA     L111A
         ORA     L111B
         BNE     L9C74
+ENDIF
 
         LDA     #<L9CAB
         STA     L00B4
@@ -5380,7 +5849,7 @@ ENDIF
         LDY     L0FFD
         BEQ     L9CA4
 
-        LDX     L9A77,Y
+        LDX     L9A78-1,Y
         LDY     #>boot_command_table
         JSR     LFFF7
 
@@ -5396,13 +5865,13 @@ ENDIF
         EQUB    $0D
 
 ;;  Vector Table
-.L9CB3  EQUW &FF1B
-        EQUW &FF1E
-        EQUW &FF21
-        EQUW &FF24
-        EQUW &FF27
-        EQUW &FF2A
-        EQUW &FF2D
+.L9CB3  EQUW $FF1B
+        EQUW $FF1E
+        EQUW $FF21
+        EQUW $FF24
+        EQUW $FF27
+        EQUW $FF2A
+        EQUW $FF2D
 
 ;; Extended Vector Table
 .L9CC1  EQUW L923E
@@ -5586,7 +6055,7 @@ ENDIF
 
         EQUB    $0D
         EQUS    "Advanced DFS "
-        INSERT_VERSION
+        INSERT_VERSION_STR
         EQUB    $8D
 
         RTS
@@ -5906,8 +6375,13 @@ ENDIF
         EQUB <(LA04A-1)
         EQUB $00
         EQUS "MOUNT"
+IF PATCH_IDE
+        EQUB >(MountCheck-1)
+        EQUB <(MountCheck-1)
+ELSE
         EQUB >(LA15E-1)
         EQUB <(LA15E-1)
+ENDIF
         EQUB $40
         EQUS "REMOVE"
         EQUB >(L9109-1)
@@ -5927,26 +6401,26 @@ ENDIF
 .argument_string_table
 .L9F8D
         EQUS "<List Spec>"
-        EQUB &00
+        EQUB $00
 .L9F99
         EQUS "<Ob Spec>"
-        EQUB &00
+        EQUB $00
 .L9FA3
         EQUS "<*Ob Spec*>"
-        EQUB &00
+        EQUB $00
 .L9FAF
         EQUS "(<Drive>)"
-        EQUB &00
+        EQUB $00
 .L9FB9
         EQUS "<SP> <LP>"
-        EQUB &00
+        EQUB $00
 .L9FC3
         EQUS "(L)(W)(R)(E)"
-        EQUB &00
+        EQUB $00
 .L9FD0
         EQUS "<Title>"
 .L9FD7
-        EQUB &00
+        EQUB $00
 .argument_string_table_end
 IF HI(argument_string_table) != HI(argument_string_table_end)
        ERROR "argument_string_table must not straddle a page boundary"
@@ -5957,7 +6431,7 @@ ENDIF
         LDY     #$39
         RTS
 
-.L9FDD        
+.L9FDD
         LDX     L00B4
         BEQ     L9FED
 
@@ -6102,6 +6576,31 @@ ENDIF
         JMP     L8BD7
 
 .LA0C3
+IF PATCH_IDE
+        RTS
+
+.BYE
+        LDY     #$05
+        LDA     (L00B0),Y
+        CMP     #$09            ; Get command, CC=Read, CS=Write
+        AND     #$FD
+        EOR     #$08
+        BEQ     CommandOk       ; Jump if Read (&08) or Write (&0A)
+        LDA     #$60
+        JMP     CommandExit     ; Return 'bad command' otherwise
+
+.CommandOk
+        JMP     CommandSaveLp1  ; Memory FULL
+
+.SetCommand1
+        PHP
+        JMP     SetCommand
+
+;; Junk bytes....
+
+        EQUB $11,$38,$E9,$20,$8D,$17,$11,$B0,$EE
+
+ELSE
         LDA     L1117
         PHA
         TAX
@@ -6123,6 +6622,8 @@ ENDIF
         SBC     #$20
         STA     L1117
         BCS     LA0D3
+
+ENDIF
 
         PLA
         STA     L1117
@@ -6423,7 +6924,7 @@ ENDIF
         INY
         LDA     (L00B4),Y
         STA     L1016
-        INY
+       INY
         LDA     (L00B4),Y
         CMP     #$20
         BEQ     LA2BF
@@ -7793,6 +8294,27 @@ ENDIF
         PHA
         JSR     L8305
 
+IF PATCH_IDE
+        JSR     WaitNotBusy
+
+        LDA     #$01
+        STA     LFC42
+        CLC               ; one sector
+        LDA     L1001,X
+        AND     #$3F
+        ADC     #$01
+        STA     LFC43     ; Set sector b0-b5
+        LDA     L1002,X
+        ADC     #$00
+        STA     LFC44     ; Set sector b8-b15
+        LDA     L1003,X
+        STA     L1133
+        JMP     SetRandom ; Set sector b16-b21
+
+        NOP
+        NOP
+ELSE
+
         JSR     L8067
 
         PLA
@@ -7813,6 +8335,8 @@ ENDIF
 
         LDA     #$00
         JMP     L82FB
+
+ENDIF
 
 .LAAF0
         JSR     LACD7
@@ -7875,6 +8399,14 @@ ENDIF
         LDY     #$00
         JSR     L830F
 
+IF PATCH_IDE
+        NOP
+        JMP     LAB63
+
+.ResultCodes
+        EQUB    $FF,$FF,$60,$FF,$50,$65,$48,$FF
+
+ELSE
         BPL     LAB63
 
         JSR     L818A
@@ -7883,6 +8415,7 @@ ENDIF
         BPL     LAB4B
 
         JMP     L829A
+ENDIF
 
 .LAB63
         LDA     (L00BC),Y
@@ -7894,13 +8427,31 @@ ENDIF
         ORA     L00CD
         STA     L00CD
         DEY
+IF PATCH_IDE
+        NOP
+        NOP
+        NOP
+ELSE
         STY     LFC43
+ENDIF
 .LAB75
         LDX     L00C1
 .LAB77
         RTS
 
 .LAB78
+IF PATCH_IDE
+        RTS
+.UpdateDrive
+        LDA     L0085
+        ORA     L1117
+        STA     L0085       ; Merge with current drive
+        STA     L1133
+        LDA     #&7F
+        RTS                 ; Store for any error
+        NOP
+ELSE
+
         LDA     L00CD
         AND     #$21
         CMP     #$21
@@ -7910,6 +8461,7 @@ ENDIF
 
         CMP     #$F2
         BEQ     LAB8A
+ENDIF
 
 .LAB87
         LDA     #$05
@@ -8103,7 +8655,12 @@ ENDIF
 
         JSR     L830F
 
+IF PATCH_IDE
+        NOP
+        NOP
+ELSE
         BMI     LACC6
+ENDIF
 
         LDY     #$00
 .LACBE
@@ -8198,7 +8755,7 @@ ENDIF
 .LAD39
         RTS
 
-.LAD3A        
+.LAD3A
         LDY     L00B4
         JSR     LACFE
 
@@ -10602,7 +11159,7 @@ ENDIF
         RTI
 
 ;;;  End of NMI handler
-        
+
 .LBCC2
         LDA     L00A2
         ROR     A
@@ -10673,7 +11230,7 @@ ENDIF
         STA     LFE84
         JMP     LBCC2
 
-        ;; TODO/FIX - how is this referenced?        
+        ;; TODO/FIX - how is this referenced?
         LDA     L0D5E
         AND     #$FB
         STA     L0D5E
@@ -11168,8 +11725,8 @@ ENDIF
         EQUB    $0D
 
 .BeebDisEndAddr
-SAVE "ADFS130.bin",BeebDisStartAddr,BeebDisEndAddr
 
+SAVE "",BeebDisStartAddr,BeebDisEndAddr
 
 ; 8000 00 00 00 4C A3 9A 82 18 30 41 63 6F 72 6E 20 41 ---L----0Acorn A
 ; 8010 44 46 53 00 31 2E 33 30 00 28 43 29 31 39 38 33 DFS-1.30-(C)1983
