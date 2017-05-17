@@ -1979,9 +1979,9 @@ LFFFF   = $FFFF
         STA     L1062
         LDA     #$0D
         STA     L1063
-        LDA     #$CC
+        LDA     #<L94CC
         STA     L00B6
-        LDA     #$94
+        LDA     #>L94CC
         STA     L00B7
         LDA     #$02
         STA     L10C0
@@ -4037,11 +4037,12 @@ LFFFF   = $FFFF
         BPL     L94B7
 
         LDA     L00B7
-        CMP     #$94
+        CMP     #$94            ; Fix this
         BEQ     L9500
 
         JMP     L8287
 
+.L94CC        
         EQUB    $A4
         EQUB    $0D,$8D,$8D,$0D,$0D,$0D,$0D,$0D
         EQUB    $0D,$00,$00,$00,$00,$00,$00,$00
