@@ -328,25 +328,25 @@ LFFF7   = $FFF7
 LFFFF   = $FFFF
 
         org     $8000
+
 .BeebDisStartAddr
+
         EQUB    $00,$00,$00
 
         JMP     L9AA3
 
         EQUB    $82
-
-        EQUB    $18,$30
+        EQUB    <L8018
+        EQUB    $30
 
         EQUS    "Acorn ADFS"
-
         EQUB    $00
 
         EQUS    "1.30"
-
+.L8018
         EQUB    $00
 
         EQUS    "(C)1983 Acorn"
-
         EQUB    $00
 
 .L8027
@@ -1188,10 +1188,10 @@ LFFFF   = $FFFF
 .L8499
         EQUS    "E."
         EQUB    $0D
-.L849C        
+.L849C
         EQUS    "SP."
         EQUB    $0D
-.exec_spool_table_end        
+.exec_spool_table_end
 IF HI(exec_spool_table) != HI(exec_spool_table_end)
        ERROR "exec_spool_table must not straddle a page boundary"
 ENDIF
@@ -1836,7 +1836,7 @@ ENDIF
 .L880B
         RTS
 
-.L880C        
+.L880C
         EQUB    $01,$00,$0E,$FF,$FF,$08,$00,$00
         EQUB    $00,$02,$00
 
@@ -3307,7 +3307,7 @@ ENDIF
 
         RTS
 
-.L9071        
+.L9071
         EQUB    $01,$00,$0E,$FF,$FF,$0A,$00,$00
         EQUB    $00,$02,$00
 
@@ -4049,7 +4049,7 @@ ENDIF
 
         JMP     L8287
 
-.L94CC        
+.L94CC
         EQUB    $A4
         EQUB    $0D,$8D,$8D,$0D,$0D,$0D,$0D,$0D
         EQUB    $0D,$00,$00,$00,$00,$00,$00,$00
@@ -4939,7 +4939,7 @@ ENDIF
         EQUB    $20,$20,$20,$20,$20,$20,$20,$20
         EQUB    $20,$24,$20,$20,$20,$20,$20,$20
         EQUB    $20,$20,$20,$02,$00,$00,$00,$02
-.L9A5F        
+.L9A5F
         EQUB    $00,$00,$00,$02
 
 .L9A63
@@ -4976,7 +4976,7 @@ ENDIF
 .L9A85 EQUS "E.$.!BOOT" ;; *Exec option
        EQUB &0D
 
-.boot_command_table_end        
+.boot_command_table_end
 
 IF HI(boot_command_table) != HI(boot_command_table_end)
        ERROR "boot_command_table must not straddle a page boundary"
@@ -5739,7 +5739,7 @@ ENDIF
         EQUB <($A93C-1)
         EQUB <($9FD8-1)
         EQUB <($A094-1)
-        
+
 .L9E76
         EQUB >($9FDD-1)
         EQUB >($AD3A-1)
@@ -6405,7 +6405,7 @@ ENDIF
 
         EQUB    $94
         EQUS    "Bad compact"
-.LA2AA        
+.LA2AA
         EQUB    $00
 
 .LA2AB
