@@ -7134,9 +7134,7 @@ ENDIF
         JSR     L8351
 
         EQUB    $A9
-
         EQUS    "No directory"
-
         EQUB    $00
 
 .LA6DE
@@ -7208,9 +7206,7 @@ ENDIF
         JSR     L8351
 
         EQUB    $AA
-
         EQUS    "Bad sum"
-
         EQUB    $00
 
 .LA749
@@ -10087,8 +10083,8 @@ ENDIF
         PLP
         JMP     L8043
 
+;; Fix this, how is it referenced?
         EQUB    $2E
-
         EQUB    $0D
 
 .LBA00
