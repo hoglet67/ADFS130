@@ -4044,7 +4044,7 @@ ENDIF
         BPL     L94B7
 
         LDA     L00B7
-        CMP     #$94
+        CMP     #>L94CC
         BEQ     L9500
 
         JMP     L8287
@@ -6206,9 +6206,9 @@ ENDIF
         LDY     #>LA19F
         JSR     L8089
 
-        LDA     #$AA
+        LDA     #<LA2AA
         STA     L00B4
-        LDA     #$A2
+        LDA     #>LA2AA
         STA     L00B5
         JSR     L953F
 
@@ -6405,6 +6405,7 @@ ENDIF
 
         EQUB    $94
         EQUS    "Bad compact"
+.LA2AA        
         EQUB    $00
 
 .LA2AB
