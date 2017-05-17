@@ -1050,14 +1050,14 @@ LFFFF   = $FFFF
 
         CPX     L10D5
         PHP
-        LDX     #$99
+        LDX     #<L8499
         PLP
         BEQ     L83ED
 
         CPY     L10D5
         BNE     L83F0
 
-        LDX     #$9C
+        LDX     #<L849C
 .L83ED
         JSR     L84A7
 
@@ -1080,10 +1080,10 @@ LFFFF   = $FFFF
         CMP     #$C7
         BNE     L8419
 
-        LDX     #$9C
+        LDX     #<L849C
         JSR     L84A7
 
-        LDX     #$99
+        LDX     #<L8499
         JSR     L84A7
 
         JSR     L8476
@@ -1184,10 +1184,17 @@ LFFFF   = $FFFF
 
         RTS
 
+.exec_spool_table
+.L8499
         EQUS    "E."
         EQUB    $0D
+.L849C        
         EQUS    "SP."
         EQUB    $0D
+.exec_spool_table_end        
+IF HI(exec_spool_table) != HI(exec_spool_table_end)
+       ERROR "exec_spool_table must not straddle a page boundary"
+ENDIF
 
 .L84A0
         LDY     #$FF
@@ -1195,7 +1202,7 @@ LFFFF   = $FFFF
         JMP     LFFF4
 
 .L84A7
-        LDY     #$84
+        LDY     #>exec_spool_table
         JMP     LFFF7
 
 .L84AC
@@ -4037,7 +4044,7 @@ LFFFF   = $FFFF
         BPL     L94B7
 
         LDA     L00B7
-        CMP     #$94            ; Fix this
+        CMP     #$94
         BEQ     L9500
 
         JMP     L8287
