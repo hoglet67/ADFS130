@@ -4,6 +4,10 @@
 ; (c) 2017 David Banks
 ; ************************************************************************
 
+; Test a shift of the code by one byte by changing the copyright message
+
+TEST_SHIFT = FALSE
+
 ; ************************************************************************
 ; IDE Patch
 ;
@@ -21,10 +25,10 @@
 ;
 
 ; Enable the IDE Patch
-PATCH_IDE = 1
+PATCH_IDE = TRUE
 
 ; Don't preseve context on Ctrl-Break
-PRESERVE_CONTEXT = 0
+PRESERVE_CONTEXT = FALSE
 
 ; Note: this generates a version with the same md5sum as ADFS133
 ; distributed with Data Centre: c7714bd93602fdc11d2cdaab4af03b07
@@ -415,7 +419,11 @@ ENDIF
 .L8018
         EQUB    $00
 
+IF TEST_SHIFT
+        EQUS    "(C)2017 Hoglet"
+ELSE
         EQUS    "(C)1983 Acorn"
+ENDIF
         EQUB    $00
 
 .L8027
@@ -11722,7 +11730,9 @@ ENDIF
 
         EQUS    "and Hugo."
 
+IF NOT(TEST_SHIFT)
         EQUB    $0D
+ENDIF
 
 .BeebDisEndAddr
 
