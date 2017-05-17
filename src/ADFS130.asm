@@ -4958,13 +4958,44 @@ LFFFF   = $FFFF
 .L9A85 EQUS "E.$.!BOOT" ;; *Exec option
        EQUB &0D
         
+;;
+;;
+;; SERVICE CALL HANDLERS
+;; =====================
+;;
+;; The following tables hold addresses pushed onto the stack to call
+;; service routines. Consequently, they are one byte less than the
+;; actual routine addresses as the RTS opcode increments the address
+;; popped from the stack
+;;
+;; Service call routines address-1 low bytes
+;; ---------------------------------------------
 .L9A8F
-        EQUB    $B7,$CE,$F0,$40,$D9,$77,$B7,$B7
-        EQUB    $18,$BD
+        EQUB <(L9AB8-1)
+        EQUB <(L9ACF-1)
+        EQUB <(L9AF1-1)
+        EQUB <(L9B41-1)
+        EQUB <(L9CDA-1)
+        EQUB <(LAB78-1)
+        EQUB <(L9AB8-1)
+        EQUB <(L9AB8-1)
+        EQUB <(L9D19-1)
+        EQUB <(L9DBE-1)
 
+;;
+;; Service call routines address-1 high bytes
+;; ----------------------------------------------
 .L9A99
-        EQUB    $9A,$9A,$9A,$9B,$9C,$AB,$9A,$9A
-        EQUB    $9D,$9D
+        EQUB >(L9AB8-1)
+        EQUB >(L9ACF-1)
+        EQUB >(L9AF1-1)
+        EQUB >(L9B41-1)
+        EQUB >(L9CDA-1)
+        EQUB >(LAB78-1)
+        EQUB >(L9AB8-1)
+        EQUB >(L9AB8-1)
+        EQUB >(L9D19-1)
+        EQUB >(L9DBE-1)
 
 .L9AA3
         PHA
@@ -5028,6 +5059,7 @@ LFFFF   = $FFFF
 .L9AF0
         RTS
 
+.L9AF1
         TYA
         STA     L0DF0,X
         PHA
@@ -5089,6 +5121,7 @@ LFFFF   = $FFFF
         PHA
         BNE     L9B87
 
+.L9B41
         TYA
         PHA
         LDA     #$7A
@@ -5344,6 +5377,7 @@ LFFFF   = $FFFF
 .L9CD6
         EQUB    $73,$66,$64,$61
 
+.L9CDA
         TYA
         PHA
         LDA     #$FF
@@ -5396,6 +5430,7 @@ LFFFF   = $FFFF
         LDX     L00F4
         RTS
 
+.L9D19
         TYA
         PHA
         LDA     #$00
@@ -5509,6 +5544,7 @@ LFFFF   = $FFFF
 
         RTS
 
+.L9DBE
         TYA
         PHA
         LDA     (L00F2),Y
@@ -7802,6 +7838,7 @@ LFFFF   = $FFFF
 .LAB77
         RTS
 
+.LAB78
         LDA     L00CD
         AND     #$21
         CMP     #$21
