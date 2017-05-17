@@ -3582,6 +3582,7 @@ LFFFF   = $FFFF
 
         JMP     L89D0
 
+.L923E
         STX     L00B8
         STY     L00B9
         TAY
@@ -5365,15 +5366,30 @@ LFFFF   = $FFFF
         EQUS    ":0.LIB*"
         EQUB    $0D
 
+;;  Vector Table
+.L9CB3 EQUW &FF1B
+       EQUW &FF1E
+       EQUW &FF21
+       EQUW &FF24
+       EQUW &FF27
+       EQUW &FF2A
+       EQUW &FF2D
         
-.L9CB3
-        EQUB    $1B,$FF,$1E,$FF,$21,$FF,$24,$FF
-        EQUB    $27,$FF,$2A,$FF,$2D,$FF
-
-.L9CC1
-        EQUB    $3E,$92,$FF,$55,$A9,$FF,$63,$AD
-        EQUB    $FF,$8F,$B0,$FF,$7F,$B5,$FF,$B6
-        EQUB    $B1,$FF,$50,$9E,$FF
+;; Extended Vector Table
+.L9CC1 EQUW L923E
+       EQUB $FF
+       EQUW LA955
+       EQUB $FF
+       EQUW LAD63
+       EQUB $FF
+       EQUW LB08F
+       EQUB $FF
+       EQUW LB57F
+       EQUB $FF
+       EQUW LB1B6
+       EQUB $FF
+       EQUW L9E50
+       EQUB $FF
 
 .L9CD6
         EQUB    $73,$66,$64,$61
@@ -5661,10 +5677,13 @@ LFFFF   = $FFFF
         BNE     L9E0D
 
 .L9E48
-        EQUB    $D7
+        EQUB    $D7,$8D,$99,$A3,$AF,$B9,$C3,$D0
 
-        EQUB    $8D,$99,$A3,$AF,$B9,$C3,$D0,$86
-        EQUB    $B4,$84,$B5,$AA,$30,$15
+.L9E50
+        STX     L00B4
+        STY     L00B5
+        TAX
+        BMI     L9E6C
 
         CMP     #$09
         BCS     L9E6C
@@ -8168,6 +8187,7 @@ LFFFF   = $FFFF
         EQUS    "EOF"
         EQUB    $00
 
+.LAD63        
         STX     L00C3
         JSR     LACFE
 
@@ -8601,6 +8621,7 @@ LFFFF   = $FFFF
 
         RTS
 
+.LB08F
         STX     L00C3
         PHA
         JSR     LACFE
@@ -9337,6 +9358,7 @@ LFFFF   = $FFFF
         TAX
         RTS
 
+.LB57F
         JSR     LA749
 
         STA     L10B4
