@@ -1829,6 +1829,7 @@ LFFFF   = $FFFF
 .L880B
         RTS
 
+.L880C        
         EQUB    $01,$00,$0E,$FF,$FF,$08,$00,$00
         EQUB    $00,$02,$00
 
@@ -1912,8 +1913,8 @@ LFFFF   = $FFFF
         LDA     L00CD
         ORA     #$10
         STA     L00CD
-        LDX     #$0C
-        LDY     #$88
+        LDX     #<L880C
+        LDY     #>L880C
         JSR     L828B
 
         LDA     L00CD
@@ -1930,8 +1931,8 @@ LFFFF   = $FFFF
         BPL     L8898
 
 .L88A1
-        LDY     #$88
-        LDX     #$17
+        LDY     #>L8817
+        LDX     #<L8817
         JSR     L828B
 
         LDA     #$02
