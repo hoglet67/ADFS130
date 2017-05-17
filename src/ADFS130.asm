@@ -3868,6 +3868,7 @@ ENDIF
         STA     L00B7
         RTS
 
+.L93CE
         JSR     LA4CF
 
         JSR     L9471
@@ -5736,27 +5737,28 @@ ENDIF
         RTS
 
 .L9E6D
-        EQUB <($9FDD-1)
-        EQUB <($AD3A-1)
-        EQUB <($A399-1)
-        EQUB <($9E7F-1)
-        EQUB <($A399-1)
-        EQUB <($93CE-1)
-        EQUB <($A93C-1)
-        EQUB <($9FD8-1)
-        EQUB <($A094-1)
+        EQUB <(L9FDD-1)
+        EQUB <(LAD3A-1)
+        EQUB <(LA399-1)
+        EQUB <(L9E7F-1)
+        EQUB <(LA399-1)
+        EQUB <(L93CE-1)
+        EQUB <(LA93C-1)
+        EQUB <(L9FD8-1)
+        EQUB <(LA094-1)
 
 .L9E76
-        EQUB >($9FDD-1)
-        EQUB >($AD3A-1)
-        EQUB >($A399-1)
-        EQUB >($9E7F-1)
-        EQUB >($A399-1)
-        EQUB >($93CE-1)
-        EQUB >($A93C-1)
-        EQUB >($9FD8-1)
-        EQUB >($A094-1)
+        EQUB >(L9FDD-1)
+        EQUB >(LAD3A-1)
+        EQUB >(LA399-1)
+        EQUB >(L9E7F-1)
+        EQUB >(LA399-1)
+        EQUB >(L93CE-1)
+        EQUB >(LA93C-1)
+        EQUB >(L9FD8-1)
+        EQUB >(LA094-1)
 
+.L9E7F
         JSR     L8305
 
         LDA     #$A2
@@ -5950,11 +5952,12 @@ IF HI(argument_string_table) != HI(argument_string_table_end)
        ERROR "argument_string_table must not straddle a page boundary"
 ENDIF
 
-
+.L9FD8
         LDX     #$30
         LDY     #$39
         RTS
 
+.L9FDD        
         LDX     L00B4
         BEQ     L9FED
 
@@ -6076,6 +6079,7 @@ ENDIF
         LDX     L00C6
         BNE     LA061
 
+.LA094
         LDX     L10D8
         BNE     LA049
 
@@ -8194,6 +8198,7 @@ ENDIF
 .LAD39
         RTS
 
+.LAD3A        
         LDY     L00B4
         JSR     LACFE
 
@@ -10107,7 +10112,7 @@ ENDIF
         PLP
         JMP     L8043
 
-;; Fix this, how is it referenced?
+        ;; TODO/FIX - how is this referenced?
         EQUB    $2E
         EQUB    $0D
 
@@ -10542,6 +10547,7 @@ ENDIF
 .LBC78
         RTS
 
+;;;  Start of NMI handler
 .LBC79
         PHA
         LDA     LFE84
@@ -10595,6 +10601,8 @@ ENDIF
         PLA
         RTI
 
+;;;  End of NMI handler
+        
 .LBCC2
         LDA     L00A2
         ROR     A
@@ -10616,23 +10624,33 @@ ENDIF
         STA     L00A0
         JMP     LBFAE
 
+;; Fragement of NMI handler
+;; copied to &0D0A
 .LBCDF
         LDA     LFFFF
         STA     LFE87
         INC     L0D0B
         BNE     LBCED
-
         INC     L0D0C
+;; end of fragment
+
+;; Fragement of NMI handler
+;; copied to &0D0A
 .LBCED
         LDA     LFEE5
         STA     LFE87
         BCS     LBCFB
+;; end of fragment
 
+;; Fragement of NMI handler
+;; copied to &0D0A
 .LBCF5
         LDA     LFE87
         STA     LFEE5
 .LBCFB
         BCS     LBD03
+;; end of fragment
+
 
 .LBCFD
         BIT     L00A1
@@ -10655,6 +10673,7 @@ ENDIF
         STA     LFE84
         JMP     LBCC2
 
+        ;; TODO/FIX - how is this referenced?        
         LDA     L0D5E
         AND     #$FB
         STA     L0D5E
