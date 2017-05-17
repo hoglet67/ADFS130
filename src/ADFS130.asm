@@ -3626,7 +3626,7 @@ LFFFF   = $FFFF
 
 .L927B
         TAX
-        LDA     #$9F
+        LDA     #>argument_string_table
         STA     L00B7
         LDA     L9E48,X
         STA     L00B6
@@ -5677,7 +5677,14 @@ LFFFF   = $FFFF
         BNE     L9E0D
 
 .L9E48
-        EQUB    $D7,$8D,$99,$A3,$AF,$B9,$C3,$D0
+        EQUB <L9FD7
+        EQUB <L9F8D
+        EQUB <L9F99
+        EQUB <L9FA3
+        EQUB <L9FAF
+        EQUB <L9FB9
+        EQUB <L9FC3
+        EQUB <L9FD0
 
 .L9E50
         STX     L00B4
@@ -5874,28 +5881,34 @@ LFFFF   = $FFFF
         EQUB >(LA399-1)
         EQUB <(LA399-1)
 
-.SPEC_BASE
-.SPEC_LIST
+.argument_string_table
+.L9F8D
         EQUS "<List Spec>"
         EQUB &00
-.SPEC_OB
+.L9F99
         EQUS "<Ob Spec>"
         EQUB &00
-.SPEC_OBSTAR
+.L9FA3
         EQUS "<*Ob Spec*>"
         EQUB &00
-.SPEC_DRIVE
+.L9FAF
         EQUS "(<Drive>)"
         EQUB &00
-.SPEC_SPLP
+.L9FB9
         EQUS "<SP> <LP>"
         EQUB &00
-.SPEC_LWRE
+.L9FC3
         EQUS "(L)(W)(R)(E)"
         EQUB &00
-.SPEC_TITLE
+.L9FD0
         EQUS "<Title>"
+.L9FD7
         EQUB &00
+.argument_string_table_end
+IF HI(argument_string_table) != HI(argument_string_table_end)
+       ERROR "argument_string_table must not straddle a page boundary"
+ENDIF
+
 
         LDX     #$30
         LDY     #$39
