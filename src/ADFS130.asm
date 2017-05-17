@@ -7372,8 +7372,8 @@ ENDIF
 
         JSR     L8287
 
-        LDX     #$0C
-        LDY     #$88
+        LDX     #<L880C
+        LDY     #>L880C
         JMP     L828B
 
 .LA81D
@@ -9305,8 +9305,8 @@ ENDIF
         EOR     L10C2
         BEQ     LB4F4
 
-        LDX     #$0C
-        LDY     #$88
+        LDX     #<L880C
+        LDY     #>L880C
         JSR     L828B
 
         JMP     LB491
@@ -9368,8 +9368,8 @@ ENDIF
         CMP     L1117
         BEQ     LB574
 
-        LDX     #$0C
-        LDY     #$88
+        LDX     #<L880C
+        LDY     #>L880C
         JSR     L828B
 
 .LB574
