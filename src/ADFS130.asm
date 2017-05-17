@@ -327,6 +327,10 @@ LFFF4   = $FFF4
 LFFF7   = $FFF7
 LFFFF   = $FFFF
 
+MACRO INSERT_VERSION
+        EQUS    "1.30"
+ENDMACRO
+
         org     $8000
 
 .BeebDisStartAddr
@@ -342,7 +346,8 @@ LFFFF   = $FFFF
         EQUS    "Acorn ADFS"
         EQUB    $00
 
-        EQUS    "1.30"
+        INSERT_VERSION
+
 .L8018
         EQUB    $00
 
@@ -5579,7 +5584,8 @@ ENDIF
         JSR     L92A0
 
         EQUB    $0D
-        EQUS    "Advanced DFS 1.30"
+        EQUS    "Advanced DFS "
+        INSERT_VERSION
         EQUB    $8D
 
         RTS
