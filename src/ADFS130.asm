@@ -3299,10 +3299,8 @@ LFFFF   = $FFFF
 
         RTS
 
-        EQUB    $01
-
-        EQUB    $00,$0E,$FF,$FF,$0A,$00,$00,$00
-        EQUB    $02,$00
+        EQUB    $01,$00,$0E,$FF,$FF,$0A,$00,$00
+        EQUB    $00,$02,$00
 
 .L907C
         STA     L1023
@@ -3778,18 +3776,14 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-        EQUB    $20
-
-        EQUB    $A8
+        EQUB    $20,$A8
 
         LDA     L16FA
         JSR     L931B
 
         JSR     L92A0
 
-        EQUB    $29
-
-        EQUB    $0D,$44,$72,$69,$76,$65,$BA
+        EQUB    $29,$0D,$44,$72,$69,$76,$65,$BA
 
         LDA     L1117
         ASL     A
@@ -3808,9 +3802,7 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-        EQUB    $4F
-
-        EQUB    $70,$74,$69,$6F,$6E,$A0
+        EQUB    $4F,$70,$74,$69,$6F,$6E,$A0
 
         LDA     L0FFD
         JSR     L931B
@@ -3831,9 +3823,7 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-        EQUB    $29
-
-        EQUB    $0D,$44,$69,$72,$2E,$A0
+        EQUB    $29,$0D,$44,$69,$72,$2E,$A0
 
         LDA     #$00
         STA     L00B6
@@ -3844,10 +3834,8 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-        EQUB    $20
-
-        EQUB    $20,$20,$20,$20,$4C,$69,$62,$2E
-        EQUB    $A0
+        EQUB    $20,$20,$20,$20,$20,$4C,$69,$62
+        EQUB    $2E,$A0
 
         LDA     #$0A
         STA     L00B6
@@ -3858,9 +3846,7 @@ LFFFF   = $FFFF
 
         JSR     L92A0
 
-        EQUB    $0D
-
-        EQUB    $8D
+        EQUB    $0D,$8D
 
 .L93C5
         LDA     #$05
@@ -4886,7 +4872,6 @@ LFFFF   = $FFFF
         JSR     L92A0
 
         EQUS    "Destroy ?"
-
         EQUB    $A0
 
         LDX     #$03
@@ -5143,7 +5128,6 @@ LFFFF   = $FFFF
         JSR     L92A0
 
         EQUS    "Acorn ADFS"
-
         EQUB    $0D,$8D
 
 .L9B87
@@ -5511,9 +5495,7 @@ LFFFF   = $FFFF
         JSR     L92A0
 
         EQUB    $0D
-
         EQUS    "Advanced DFS 1.30"
-
         EQUB    $8D
 
         RTS
@@ -5529,9 +5511,7 @@ LFFFF   = $FFFF
         JSR     L92A0
 
         EQUB    $20
-
         EQUS    " ADFS"
-
         EQUB    $8D
 
 .L9DD3
@@ -5592,7 +5572,6 @@ LFFFF   = $FFFF
         JSR     L92A0
 
         EQUS    " "
-
         EQUB    $A0
 
         LDY     #$09
@@ -5909,7 +5888,6 @@ LFFFF   = $FFFF
         JSR     L92A0
 
         EQUS    "Free"
-
         EQUB    $8D
 
         JSR     LA1AA
@@ -5930,7 +5908,6 @@ LFFFF   = $FFFF
         JSR     L92A0
 
         EQUS    "Used"
-
         EQUB    $8D
 
 .LA049
@@ -5940,7 +5917,6 @@ LFFFF   = $FFFF
         JSR     L92A0
 
         EQUS    "Address :  Length"
-
         EQUB    $8D
 
         LDX     #$00
@@ -5964,7 +5940,6 @@ LFFFF   = $FFFF
         JSR     L92A0
 
         EQUS    "  : "
-
         EQUB    $A0
 
         LDX     L00C6
@@ -5992,7 +5967,6 @@ LFFFF   = $FFFF
         JSR     L92A0
 
         EQUS    "Compaction recommended"
-
         EQUB    $8D
 
         RTS
@@ -6197,7 +6171,6 @@ LFFFF   = $FFFF
         JSR     L92A0
 
         EQUS    " Sectors ="
-
         EQUB    $A0
 
         LDX     #$1F
@@ -6272,7 +6245,6 @@ LFFFF   = $FFFF
         JSR     L92A0
 
         EQUS    " Bytes"
-
         EQUB    $A0
 
         RTS
