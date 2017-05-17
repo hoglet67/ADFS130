@@ -4701,9 +4701,9 @@ LFFFF   = $FFFF
         LDA     L00C0
         BEQ     L9938
 
-        LDA     #$3B
+        LDA     #<L993B
         STA     L00B4
-        LDA     #$99
+        LDA     #>L993B
         STA     L00B5
         JSR     L947F
 
@@ -4727,6 +4727,7 @@ LFFFF   = $FFFF
 .L9938
         JMP     L89D3
 
+.L993B
         EQUB    $5E
 .L993C
         EQUB    $0D
