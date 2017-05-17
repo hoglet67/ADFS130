@@ -3172,8 +3172,8 @@ LFFFF   = $FFFF
 
         STX     L0EFF
         STA     L0FFF
-        LDX     #$71
-        LDY     #$90
+        LDX     #<L9071
+        LDY     #>L9071
         JSR     L828B
 
         LDA     L00CD
@@ -3300,6 +3300,7 @@ LFFFF   = $FFFF
 
         RTS
 
+.L9071        
         EQUB    $01,$00,$0E,$FF,$FF,$0A,$00,$00
         EQUB    $00,$02,$00
 
