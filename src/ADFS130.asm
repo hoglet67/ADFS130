@@ -5644,7 +5644,7 @@ LFFFF   = $FFFF
 
         TXA
         PHA
-        LDA     L9EE5,X
+        LDA     L9EE3+2,X
         PHA
         LSR     A
         LSR     A
@@ -5764,48 +5764,71 @@ LFFFF   = $FFFF
 .L9EDA
         LDA     L9EE3,X
         PHA
-        LDA     L9EE4,X
+        LDA     L9EE3+1,X
         PHA
         RTS
-
+                
 .L9EE3
-        EQUB    $41
+        EQUS "ACCESS"
+        EQUB $99,$3C,$16
+        EQUS "BACK"
+        EQUB $A4,$96,$00
+        EQUS "BYE"
+        EQUB $A0,$C2,$00
+        EQUS "CDIR"
+        EQUB $95,$6F,$20
+        EQUS "CLOSE"
+        EQUB $B1,$B2,$00
+        EQUS "COMPACT"
+        EQUB $A2,$75,$50
+        EQUS "COPY"
+        EQUB $A8,$1C,$13
+        EQUS "DELETE"
+        EQUB $A0,$BA,$20
+        EQUS "DESTROY"
+        EQUB $99,$E5,$10
+        EQUS "DIR"
+        EQUB $95,$3E,$20
+        EQUS "DISMOUNT"
+        EQUB $A1,$10,$40
+        EQUS "EX"
+        EQUB $94,$32,$30
+        EQUS "FREE"
+        EQUB $A0,$1A,$00
+        EQUS "INFO"
+        EQUB $94,$E6,$10
+        EQUS "LCAT"
+        EQUB $A4,$7E,$00
+        EQUS "LEX"
+        EQUB $A4,$8A,$00
+        EQUS "LIB"
+        EQUB $A4,$43,$30
+        EQUS "MAP"
+        EQUB $A0,$49,$00
+        EQUS "MOUNT"
+        EQUB $A1,$5D,$40
+        EQUS "REMOVE"
+        EQUB $91,$08,$20
+        EQUS "RENAME"
+        EQUB $A5,$02,$22
+        EQUS "TITLE"
+        EQUB $A2,$51,$70
+        EQUB $A3,$98
 
-.L9EE4
-        EQUB    $43
-
-.L9EE5
-        EQUB    $43,$45,$53,$53,$99,$3C,$16,$42
-        EQUB    $41,$43,$4B,$A4,$96,$00,$42,$59
-        EQUB    $45,$A0,$C2,$00,$43,$44,$49,$52
-        EQUB    $95,$6F,$20,$43,$4C,$4F,$53,$45
-        EQUB    $B1,$B2,$00,$43,$4F,$4D,$50,$41
-        EQUB    $43,$54,$A2,$75,$50,$43,$4F,$50
-        EQUB    $59,$A8,$1C,$13,$44,$45,$4C,$45
-        EQUB    $54,$45,$A0,$BA,$20,$44,$45,$53
-        EQUB    $54,$52,$4F,$59,$99,$E5,$10,$44
-        EQUB    $49,$52,$95,$3E,$20,$44,$49,$53
-        EQUB    $4D,$4F,$55,$4E,$54,$A1,$10,$40
-        EQUB    $45,$58,$94,$32,$30,$46,$52,$45
-        EQUB    $45,$A0,$1A,$00,$49,$4E,$46,$4F
-        EQUB    $94,$E6,$10,$4C,$43,$41,$54,$A4
-        EQUB    $7E,$00,$4C,$45,$58,$A4,$8A,$00
-        EQUB    $4C,$49,$42,$A4,$43,$30,$4D,$41
-        EQUB    $50,$A0,$49,$00,$4D,$4F,$55,$4E
-        EQUB    $54,$A1,$5D,$40,$52,$45,$4D,$4F
-        EQUB    $56,$45,$91,$08,$20,$52,$45,$4E
-        EQUB    $41,$4D,$45,$A5,$02,$22,$54,$49
-        EQUB    $54,$4C,$45,$A2,$51,$70,$A3,$98
-        EQUB    $3C,$4C,$69,$73,$74,$20,$53,$70
-        EQUB    $65,$63,$3E,$00,$3C,$4F,$62,$20
-        EQUB    $53,$70,$65,$63,$3E,$00,$3C,$2A
-        EQUB    $4F,$62,$20,$53,$70,$65,$63,$2A
-        EQUB    $3E,$00,$28,$3C,$44,$72,$69,$76
-        EQUB    $65,$3E,$29,$00,$3C,$53,$50,$3E
-        EQUB    $20,$3C,$4C,$50,$3E,$00,$28,$4C
-        EQUB    $29,$28,$57,$29,$28,$52,$29,$28
-        EQUB    $45,$29,$00,$3C,$54,$69,$74,$6C
-        EQUB    $65,$3E,$00
+        EQUS "<List Spec>"
+        EQUB &00
+        EQUS "<Ob Spec>"
+        EQUB &00
+        EQUS "<*Ob Spec*>"
+        EQUB &00
+        EQUS "(<Drive>)"
+        EQUB &00
+        EQUS "<SP> <LP>"
+        EQUB &00
+        EQUS "(L)(W)(R)(E)"
+        EQUB &00
+        EQUS "<Title>"
+        EQUB &00
 
         LDX     #$30
         LDY     #$39
