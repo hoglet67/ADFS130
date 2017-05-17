@@ -4648,9 +4648,9 @@ LFFFF   = $FFFF
         STA     L1052
         LDA     #$1B
         STA     L00C1
-        LDA     #$3C
+        LDA     #<L993C
         STA     L00B4
-        LDA     #$99
+        LDA     #>L993C
         STA     L00B5
 .L98C9
         JSR     L947F
@@ -4727,7 +4727,9 @@ LFFFF   = $FFFF
 .L9938
         JMP     L89D3
 
-        EQUB    $5E, $0D
+        EQUB    $5E
+.L993C
+        EQUB    $0D
 
 .L993D
         JSR     L8FDF
