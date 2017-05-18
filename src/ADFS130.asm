@@ -4524,14 +4524,22 @@ ENDIF
 
         LDY     #$04
         LDA     (L00B6),Y
+IF PATCH_INFO
+        NOP
+        NOP
+ELSE
         BMI     L953C
-
+ENDIF
         DEY
         LDA     (L00B6),Y
         ROL     A
         LDX     #$0A
         LDY     #$0D
+IF PATCH_INFO
+        BNE     L951B
+ELSE
         BCC     L951B
+ENDIF
 
         LDX     #$17
         LDY     #$18
