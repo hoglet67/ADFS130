@@ -6,7 +6,7 @@
 
 ; Test a shift of the code by one byte by changing the copyright message
 
-TEST_SHIFT = FALSE
+; TEST_SHIFT = FALSE
 
 ; ************************************************************************
 ; IDE Patch
@@ -25,10 +25,10 @@ TEST_SHIFT = FALSE
 ;
 
 ; Enable the IDE Patch
-PATCH_IDE = TRUE
+; PATCH_IDE = TRUE
 
 ; Don't preseve context on Ctrl-Break
-PRESERVE_CONTEXT = FALSE
+; PATCH_PRESERVE_CONTEXT = FALSE
 
 ; Note: this generates a version with the same md5sum as ADFS133
 ; distributed with Data Centre: c7714bd93602fdc11d2cdaab4af03b07
@@ -494,7 +494,7 @@ IF PATCH_IDE
         NOP
         NOP
 
-IF PRESERVE_CONTEXT
+IF PATCH_PRESERVE_CONTEXT
 .ReadBreak
         LDA     L028D
         AND     #$01
@@ -5548,7 +5548,7 @@ ENDIF
         TYA
         STA     L0DF0,X
         PHA
-IF PRESERVE_CONTEXT
+IF PATCH_PRESERVE_CONTEXT
         JSR     ReadBreak
 ELSE
         LDA     L028D
@@ -5623,7 +5623,7 @@ ENDIF
 
         BEQ     L9B6E
 
-IF PRESERVE_CONTEXT
+IF PATCH_PRESERVE_CONTEXT
         JSR     ReadBreak
 ELSE
         LDA     L028D
