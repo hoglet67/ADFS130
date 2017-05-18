@@ -23,7 +23,7 @@
 ; v1.17 Two drives per device, no wait for spin-up on power-on
 ; v1.18 Ported to update ADFS 1.30 instead of 1.50
 ; v1.19 Reads/writes full access byte, full *INFO display
-; v1.20 Unsupported OSFILE returns A preserved
+; v1.20 Unsupported OSFILE returns A preserved, updated result translation
 ;
 ;
 
@@ -8498,11 +8498,10 @@ ENDIF
         JSR     L830F
 
 IF PATCH_IDE
-        NOP
         JMP     LAB63
 
 .ResultCodes
-        EQUB    $FF,$FF,$60,$FF,$50,$65,$48,$FF
+        EQUB    $12,$06,$2F,$02,$10,$28,$11,$19,$03
 
 ELSE
         BPL     LAB63
