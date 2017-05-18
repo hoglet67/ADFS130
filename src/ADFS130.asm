@@ -11,7 +11,7 @@
 ; ************************************************************************
 ; IDE Patch
 ;
-; > IDEPatch 1.18
+; > IDEPatch 1.19
 ; J.G.Harston, M.Firth
 ; Patch ADFS 1.30 to access IDE devices
 ; v1.10 Trial version, incorporates context preservation on Ctrl-Break
@@ -22,6 +22,8 @@
 ; v1.16 Automatically finds Library directory
 ; v1.17 Two drives per device, no wait for spin-up on power-on
 ; v1.18 Ported to update ADFS 1.30 instead of 1.50
+; v1.19 Reads/writes full access byte, full *INFO display
+;
 ;
 
 ; Enable the IDE Patch
@@ -399,7 +401,8 @@ ENDMACRO
 
 ENDIF
 
-        org     $8000
+        ORG     $8000
+        GUARD   $C000
 
 .BeebDisStartAddr
 
@@ -3016,7 +3019,37 @@ ENDIF
         DEY
         DEX
         BPL     L8C76
-
+IF PATCH_FULL_ACCESS
+        LDY     #$08
+.RdLp
+        CPY     #$04           ;; Read full access byte
+        BNE     RdNotE
+        DEY
+        DEY
+.RdNotE
+        LDA     (L00B6),Y
+        ASL     A
+        ROL     L102B
+        CPY     #$04
+        BEQ     RdIsE
+        CPY     #$02
+        BNE     RdNext
+        INY
+        INY
+        BNE     RdNotE
+.RdIsE
+        DEY
+        DEY
+.RdNext
+        DEY
+        BPL     RdLp
+        LDA     L102B
+        LDY     #&0E
+        STA     (L00B8),Y
+        RTS
+        NOP
+        NOP
+ELSE        
         LDA     #$00
         STA     L102B
         LDY     #$02
@@ -3044,7 +3077,7 @@ ENDIF
         LDY     #$0E
         STA     (L00B8),Y
         RTS
-
+ENDIF
 .L8CA8
         LDY     #$00
         LDA     (L00B8),Y
@@ -3061,7 +3094,11 @@ ENDIF
         BPL     L8CC3
 
         LDA     #$FF
+IF PATCH_FULL_ACCESS
+        STA     L10C0
+ELSE
         JMP     L89D3
+ENDIF
 
 .L8CC3
         JSR     L8C65
@@ -3749,7 +3786,11 @@ ENDIF
 
 .L907C
         STA     L1023
+IF PATCH_FULL_ACCESS
+        JSR     L8FDF
+ELSE
         JSR     L8BE5
+ENDIF
 
         BEQ     L9087
 
@@ -3810,6 +3851,36 @@ ENDIF
         LDY     #$0E
         LDA     (L00B8),Y
         STA     L102B
+IF PATCH_FULL_ACCESS
+        LDY     #$08
+.WrLp
+        CPY     #$04         ;; Write full access byte
+        BNE     WrNotE
+        DEY
+        DEY
+.WrNotE
+        LDA     (L00B6),Y
+        ASL     A
+        ROL     L102B
+        ROR     A
+        STA     (L00B6),Y
+        CPY     #$04
+        BEQ     WrIsE
+        CPY     #$02
+        BNE     WrNext
+        INY
+        INY
+        BNE     WrNotE
+.WrIsE
+        DEY
+        DEY
+.WrNext
+        DEY
+        BPL     WrLp
+        NOP
+        NOP
+        NOP
+ELSE
         LDY     #$03
         LDA     (L00B6),Y
         BPL     L90E9
@@ -3834,6 +3905,7 @@ ENDIF
         BCC     L90EB
 
         BEQ     L90E2
+ENDIF
 
 .L90FB
         JSR     L8F86
@@ -3841,7 +3913,11 @@ ENDIF
         JMP     L8CC3
 
 .L9101
+IF PATCH_FULL_ACCESS
+        JSR     L8FDF
+ELSE
         JSR     L8BE5
+ENDIF
 
         BEQ     L90CF
 
