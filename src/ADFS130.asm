@@ -23,6 +23,7 @@
 ; v1.17 Two drives per device, no wait for spin-up on power-on
 ; v1.18 Ported to update ADFS 1.30 instead of 1.50
 ; v1.19 Reads/writes full access byte, full *INFO display
+; v1.20 Unsupported OSFILE returns A preserved
 ;
 ;
 
@@ -4113,7 +4114,12 @@ ENDIF
         TAX
         INX
         INX
+IF PATCH_UNSUPPORTED_OSFILE
+        TYA     ;; Unsupported OSFILE should return with A preserved        
+        NOP     ;; This patch works because the BMI branch below is superfluous
+ELSE        
         BMI     L9268
+ENDIF
 
         CPX     #$12
         BCS     L9268
