@@ -24,7 +24,7 @@
 ; v1.18 Ported to update ADFS 1.30 instead of 1.50
 ; v1.19 Reads/writes full access byte, full *INFO display
 ; v1.20 Unsupported OSFILE returns A preserved, updated result translation
-;
+; v1.21 Fixes for Reads/writes full access byte
 ;
 
 ; Enable the IDE Patch
@@ -5287,9 +5287,13 @@ ENDIF
 
         LDY     #$04
         LDA     (L00B6),Y
+IF PATCH_FULL_ACCESS
+        JSR     L999E
+ELSE        
         BMI     L9965
 
         DEY
+ENDIF
         LDA     (L00B6),Y
         AND     #$80
         LDY     #$00
@@ -5334,6 +5338,20 @@ ENDIF
         CMP     #$45
         BNE     L99A5
 
+IF PATCH_FULL_ACCESS
+        LDX     #$04
+        BNE     L99C9
+.L999E:
+        LDA     (L00B6),Y
+        AND     #&7F
+        STA     (L00B6),Y
+        DEY
+        RTS
+        NOP
+        NOP
+        NOP
+        NOP
+ELSE
         JSR     L9945
 
         LDY     #$04
@@ -5342,6 +5360,7 @@ ENDIF
         STA     (L00B6),Y
         STA     L102B
         BMI     L99B8
+ENDIF
 
 .L99A5
         LDX     #$02
