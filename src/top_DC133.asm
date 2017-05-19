@@ -1,5 +1,5 @@
 ; Optional ADFS patches
-PATCH_IDE                = FALSE   ; replace SCSI drivers with IDE
+PATCH_IDE                = TRUE    ; replace SCSI drivers with IDE
 PATCH_IDE_RESULTCODES    = FALSE   ; correct the result codes returned by IDE driver
 PATCH_FULL_ACCESS        = FALSE   ; allow the E access bit to be removed
 PATCH_INFO               = FALSE   ; show full info on directories
@@ -24,18 +24,18 @@ MACRO INSERT_COPYRIGHT_STR
         EQUS    "(C)1983 Acorn"
 ENDMACRO
 MACRO INSERT_VERSION_STR
-        EQUS    "1.30"
+        EQUS    "1.33"
 ENDMACRO
 MACRO INSERT_VERSION_BIN
-        EQUS    $30
+        EQUS    $33
 ENDMACRO
 MACRO INSERT_HELP_STR
         EQUS    "Advanced DFS "
         INSERT_VERSION_STR
 ENDMACRO
 
-; Note: this generates a version with the same md5sum as ADFS130
-; released by Acorn: 831e831ee90ac5d49ba5507252faf0c12536
+; Note: this generates a version with the same md5sum as ADFS133
+; distributed with Data Centre: c7714bd93602fdc11d2cdaab4af03b07
 
 ; Include common source file
 include "ADFS130.asm"

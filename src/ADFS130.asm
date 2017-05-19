@@ -4,14 +4,10 @@
 ; (c) 2017 David Banks
 ; ************************************************************************
 
-; Test a shift of the code by one byte by changing the copyright message
-
-; TEST_SHIFT = FALSE
-
 ; ************************************************************************
 ; IDE Patch
 ;
-; > IDEPatch 1.19
+; > IDEPatch 1.21
 ; J.G.Harston, M.Firth
 ; Patch ADFS 1.30 to access IDE devices
 ; v1.10 Trial version, incorporates context preservation on Ctrl-Break
@@ -27,16 +23,10 @@
 ; v1.21 Fixes for Reads/writes full access byte
 ;
 
-; Enable the IDE Patch
-; PATCH_IDE = TRUE
-
-; Don't preseve context on Ctrl-Break
-; PATCH_PRESERVE_CONTEXT = FALSE
-
-; Note: this generates a version with the same md5sum as ADFS133
-; distributed with Data Centre: c7714bd93602fdc11d2cdaab4af03b07
 ; ************************************************************************
 
+guard_value = $C000
+        
 L0000   = $0000
 L0001   = $0001
 L0002   = $0002
@@ -354,22 +344,22 @@ L1BCC   = $1BCC
 L1BD6   = $1BD6
 L1BD9   = $1BD9
 L1BFA   = $1BFA
-LFC40   = $FC40
-LFC41   = $FC41
-LFC42   = $FC42
-LFC43   = $FC43
-LFC44   = $FC44
-LFC45   = $FC45
-LFC46   = $FC46
-LFC47   = $FC47
-LFE30   = $FE30
-LFE44   = $FE44
-LFE80   = $FE80
-LFE84   = $FE84
-LFE85   = $FE85
-LFE86   = $FE86
-LFE87   = $FE87
-LFEE5   = $FEE5
+LFC40   = SCSI_IDE_BASE
+LFC41   = SCSI_IDE_BASE + 1
+LFC42   = SCSI_IDE_BASE + 2
+LFC43   = SCSI_IDE_BASE + 3
+LFC44   = SCSI_IDE_BASE + 4
+LFC45   = SCSI_IDE_BASE + 5
+LFC46   = SCSI_IDE_BASE + 6
+LFC47   = SCSI_IDE_BASE + 7
+LFE30   = ROM_LATCH
+LFE44   = VIA_BASE + 4
+LFE80   = FDC_BASE
+LFE84   = FDC_BASE + 4
+LFE85   = FDC_BASE + 5
+LFE86   = FDC_BASE + 6
+LFE87   = FDC_BASE + 7
+LFEE5   = TUBE_BASE + 5
 LFFDA   = $FFDA
 LFFE0   = $FFE0
 LFFE3   = $FFE3
@@ -380,54 +370,32 @@ LFFF4   = $FFF4
 LFFF7   = $FFF7
 LFFFF   = $FFFF
 
-IF PATCH_IDE
-
-MACRO INSERT_VERSION_STR
-        EQUS    "1.33"
+MACRO PAD n
+    IF PRESERVE_PADDING
+        FOR i, 1, n
+            NOP
+        NEXT
+    ENDIF
 ENDMACRO
-
-MACRO INSERT_VERSION_BIN
-        EQUS    $33
-ENDMACRO
-
-ELSE
-
-MACRO INSERT_VERSION_STR
-        EQUS    "1.30"
-ENDMACRO
-
-MACRO INSERT_VERSION_BIN
-        EQUS    $30
-ENDMACRO
-
-ENDIF
 
         ORG     $8000
-        GUARD   $C000
-
-.BeebDisStartAddr
+        GUARD   guard_value
 
         EQUB    $00,$00,$00
 
         JMP     L9AA3
 
         EQUB    $82
-        EQUB    <L8018
+        EQUB    <L8019-1
         INSERT_VERSION_BIN
 
-        EQUS    "Acorn ADFS"
+        INSERT_NAME_STR
         EQUB    $00
 
         INSERT_VERSION_STR
-
-.L8018
         EQUB    $00
-
-IF TEST_SHIFT
-        EQUS    "(C)2017 Hoglet"
-ELSE
-        EQUS    "(C)1983 Acorn"
-ENDIF
+.L8019
+        INSERT_COPYRIGHT_STR
         EQUB    $00
 
 .L8027
@@ -493,10 +461,8 @@ ENDIF
 
 IF PATCH_IDE
         RTS
-        NOP
-        NOP
-        NOP
-        NOP
+
+        PAD     4
 
 IF PATCH_PRESERVE_CONTEXT
 .ReadBreak
@@ -504,14 +470,9 @@ IF PATCH_PRESERVE_CONTEXT
         AND     #$01
         RTS
 ELSE
-        NOP
-        NOP
-        NOP
-        NOP
-        NOP
-        NOP
+        PAD     6
 ENDIF
-        NOP
+        PAD     1
 
 .WaitForData
         LDA     LFC47
@@ -640,7 +601,7 @@ ENDIF
 
 IF PATCH_IDE
         LDY     #$00
-        NOP
+        PAD     1
 ELSE
         JSR     L8065
 ENDIF
@@ -667,10 +628,7 @@ ENDIF
 IF PATCH_IDE
 
         JMP     BYE
-        NOP
-        NOP
-        NOP
-        NOP
+        PAD     4
 
 .CommandSaveLp1
         LDY     #$09
@@ -1101,13 +1059,7 @@ IF PATCH_IDE
 .GetResOk
         RTS
 
-        NOP
-        NOP
-        NOP
-        NOP
-        NOP
-        NOP
-        NOP
+        PAD     7
 
 ELSE
 
@@ -2819,9 +2771,7 @@ IF PATCH_IDE
         JSR      SetSector
         PLA
         TAX
-        NOP
-        NOP
-        NOP
+        PAD      3
 ELSE
         LDY     #$00
 .L8B74
@@ -3048,9 +2998,8 @@ IF PATCH_FULL_ACCESS
         LDY     #&0E
         STA     (L00B8),Y
         RTS
-        NOP
-        NOP
-ELSE        
+        PAD     2
+ELSE
         LDA     #$00
         STA     L102B
         LDY     #$02
@@ -3878,9 +3827,7 @@ IF PATCH_FULL_ACCESS
 .WrNext
         DEY
         BPL     WrLp
-        NOP
-        NOP
-        NOP
+        PAD     3
 ELSE
         LDY     #$03
         LDA     (L00B6),Y
@@ -4115,9 +4062,10 @@ ENDIF
         INX
         INX
 IF PATCH_UNSUPPORTED_OSFILE
-        TYA     ;; Unsupported OSFILE should return with A preserved        
-        NOP     ;; This patch works because the BMI branch below is superfluous
-ELSE        
+        TYA     ;; Unsupported OSFILE should return with A preserved
+                ;; This patch works because the BMI branch below is superfluous
+        PAD     1
+ELSE
         BMI     L9268
 ENDIF
 
@@ -4607,8 +4555,7 @@ ENDIF
         LDY     #$04
         LDA     (L00B6),Y
 IF PATCH_INFO
-        NOP
-        NOP
+        PAD      2
 ELSE
         BMI     L953C
 ENDIF
@@ -5289,7 +5236,7 @@ ENDIF
         LDA     (L00B6),Y
 IF PATCH_FULL_ACCESS
         JSR     L999E
-ELSE        
+ELSE
         BMI     L9965
 
         DEY
@@ -5347,10 +5294,7 @@ IF PATCH_FULL_ACCESS
         STA     (L00B6),Y
         DEY
         RTS
-        NOP
-        NOP
-        NOP
-        NOP
+        PAD     4
 ELSE
         JSR     L9945
 
@@ -5502,12 +5446,7 @@ IF PATCH_IDE
         SBC     #$01
         RTS
 
-        NOP
-        NOP
-        NOP
-        NOP
-        NOP
-        NOP
+        PAD     6
 
 ELSE
         LDA     #$5A
@@ -5771,7 +5710,7 @@ ENDIF
 
         JSR     L92A0
 
-        EQUS    "Acorn ADFS"
+        INSERT_NAME_STR
         EQUB    $0D,$8D
 
 .L9B87
@@ -6171,8 +6110,7 @@ ENDIF
         JSR     L92A0
 
         EQUB    $0D
-        EQUS    "Advanced DFS "
-        INSERT_VERSION_STR
+        INSERT_HELP_STR
         EQUB    $8D
 
         RTS
@@ -8428,8 +8366,8 @@ IF PATCH_IDE
         STA     L1133
         JMP     SetRandom ; Set sector b16-b21
 
-        NOP
-        NOP
+        PAD     2
+
 ELSE
 
         JSR     L8067
@@ -8517,10 +8455,20 @@ ENDIF
         JSR     L830F
 
 IF PATCH_IDE
-        JMP     LAB63
 
+IF PATCH_IDE_RESULTCODES
+
+        JMP     LAB63
 .ResultCodes
         EQUB    $12,$06,$2F,$02,$10,$28,$11,$19,$03
+
+ELSE
+        PAD     1
+        JMP     LAB63
+ .ResultCodes
+        EQUB    $FF,$FF,$60,$FF,$50,$65,$48,$FF
+
+ENDIF
 
 ELSE
         BPL     LAB63
@@ -8544,9 +8492,7 @@ ENDIF
         STA     L00CD
         DEY
 IF PATCH_IDE
-        NOP
-        NOP
-        NOP
+        PAD     3
 ELSE
         STY     LFC43
 ENDIF
@@ -8565,7 +8511,7 @@ IF PATCH_IDE
         STA     L1133
         LDA     #&7F
         RTS                 ; Store for any error
-        NOP
+        PAD     1
 ELSE
 
         LDA     L00CD
@@ -8772,8 +8718,7 @@ ENDIF
         JSR     L830F
 
 IF PATCH_IDE
-        NOP
-        NOP
+        PAD     2
 ELSE
         BMI     LACC6
 ENDIF
@@ -11346,11 +11291,13 @@ ENDIF
         STA     LFE84
         JMP     LBCC2
 
+IF PRESERVE_PADDING
         ;; TODO/FIX - how is this referenced?
         LDA     L0D5E
         AND     #$FB
         STA     L0D5E
         RTS
+ENDIF
 
 .LBD22
         LDA     L0D5E
@@ -11836,15 +11783,14 @@ ENDIF
         AND     #$7F
         RTS
 
+IF PRESERVE_PADDING
         EQUS    "and Hugo."
-
-IF NOT(TEST_SHIFT)
         EQUB    $0D
 ENDIF
 
-.BeebDisEndAddr
+PRINT "    code ends at",~P%," (",(guard_value - P%), "bytes free )"
 
-SAVE "",BeebDisStartAddr,BeebDisEndAddr
+SAVE "", &8000, &C000
 
 ; 8000 00 00 00 4C A3 9A 82 18 30 41 63 6F 72 6E 20 41 ---L----0Acorn A
 ; 8010 44 46 53 00 31 2E 33 30 00 28 43 29 31 39 38 33 DFS-1.30-(C)1983
@@ -12871,4 +12817,3 @@ SAVE "",BeebDisStartAddr,BeebDisEndAddr
 ; BFE0 20 43 80 A6 B0 AD E3 10 F0 07 09 40 A0 FF 8C E4  C---------@----
 ; BFF0 10 A4 B1 29 7F 60 61 6E 64 20 48 75 67 6F 2E 0D ---)-`and Hugo.-
 ; C000 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ----------------
-

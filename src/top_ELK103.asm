@@ -1,4 +1,4 @@
-; Optional ADFS patches
+; optional ADFS patches
 PATCH_IDE                = TRUE   ; replace SCSI drivers with IDE
 PATCH_IDE_RESULTCODES    = TRUE   ; correct the result codes returned by IDE driver
 PATCH_FULL_ACCESS        = TRUE   ; allow the E access bit to be removed
@@ -7,11 +7,11 @@ PATCH_UNSUPPORTED_OSFILE = TRUE   ; fix corrupted A register in unsupported OSFI
 PATCH_PRESERVE_CONTEXT   = FALSE  ; preseve context (e.g. directory) over hard-break
 
 ; IO specific addresses
-FDC_BASE                 = $FE80
-ROM_LATCH                = $FE30
+FDC_BASE                 = $FCC0
+ROM_LATCH                = $FE05
 SCSI_IDE_BASE            = $FC40
-TUBE_BASE                = $FEE0
-VIA_BASE                 = $FE40
+TUBE_BASE                = $FCE0
+VIA_BASE                 = $FCB0
 
 ; Whether to preserve padding, for binary comparison with known versions
 PRESERVE_PADDING         = FALSE
@@ -21,16 +21,16 @@ include "BUILD.asm"
 
 ; Version macros
 MACRO INSERT_NAME_STR
-        EQUS    "Acorn ADFS"
+        EQUS    "Electron ADFS"
 ENDMACRO
 MACRO INSERT_COPYRIGHT_STR
         EQUS    "(C)2017 Acorn"
 ENDMACRO
 MACRO INSERT_VERSION_STR
-        EQUS    "1.33"
+        EQUS    "1.03"
 ENDMACRO
 MACRO INSERT_VERSION_BIN
-        EQUS    $00
+        EQUS    $03
 ENDMACRO
 MACRO INSERT_HELP_STR
         INSERT_NAME_STR

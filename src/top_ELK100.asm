@@ -7,35 +7,38 @@ PATCH_UNSUPPORTED_OSFILE = FALSE   ; fix corrupted A register in unsupported OSF
 PATCH_PRESERVE_CONTEXT   = FALSE   ; preseve context (e.g. directory) over hard-break
 
 ; IO specific addresses
-FDC_BASE                 = $FE80
-ROM_LATCH                = $FE30
+FDC_BASE                 = $FCC0
+ROM_LATCH                = $FE05
 SCSI_IDE_BASE            = $FC40
-TUBE_BASE                = $FEE0
-VIA_BASE                 = $FE40
+TUBE_BASE                = $FCE0
+VIA_BASE                 = $FCB0
 
 ; Whether to preserve padding, for binary comparison with known versions
-PRESERVE_PADDING         = TRUE
+PRESERVE_PADDING         = FALSE
+
+; Common build version
+include "BUILD.asm"
 
 ; Version macros
 MACRO INSERT_NAME_STR
-        EQUS    "Acorn ADFS"
+        EQUS    "Electron ADFS"
 ENDMACRO
 MACRO INSERT_COPYRIGHT_STR
-        EQUS    "(C)1983 Acorn"
+        EQUS    "(C)2017 Acorn"
 ENDMACRO
 MACRO INSERT_VERSION_STR
-        EQUS    "1.30"
+        EQUS    "1.00"
 ENDMACRO
 MACRO INSERT_VERSION_BIN
-        EQUS    $30
+        EQUS    $00
 ENDMACRO
 MACRO INSERT_HELP_STR
-        EQUS    "Advanced DFS "
+        INSERT_NAME_STR
+        EQUS " "
         INSERT_VERSION_STR
+        EQUS "."
+        INSERT_BUILD_STR
 ENDMACRO
-
-; Note: this generates a version with the same md5sum as ADFS130
-; released by Acorn: 831e831ee90ac5d49ba5507252faf0c12536
 
 ; Include common source file
 include "ADFS130.asm"
