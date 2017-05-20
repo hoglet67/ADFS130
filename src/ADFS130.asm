@@ -7,7 +7,7 @@
 ; ************************************************************************
 ; IDE Patch
 ;
-; > IDEPatch 1.21
+; > IDEPatch 1.23
 ; J.G.Harston, M.Firth
 ; Patch ADFS 1.30 to access IDE devices
 ; v1.10 Trial version, incorporates context preservation on Ctrl-Break
@@ -20,13 +20,15 @@
 ; v1.18 Ported to update ADFS 1.30 instead of 1.50
 ; v1.19 Reads/writes full access byte, full *INFO display
 ; v1.20 Unsupported OSFILE returns A preserved, updated result translation
-; v1.21 Fixes for Reads/writes full access byte
-;
+; v1.21 Optimisations as a result of porting to MMC
+;       also fixes for Reads/writes full access byte
+; v1.22 Combined patch for BBC/Master
+; v1.23 BBC unsupported OSFILE, 32016 Tube delay
 
 ; ************************************************************************
 
 guard_value = $C000
-        
+
 L0000   = $0000
 L0001   = $0001
 L0002   = $0002
@@ -378,6 +380,14 @@ MACRO PAD n
     ENDIF
 ENDMACRO
 
+MACRO PAD00 n
+    IF PRESERVE_PADDING
+        FOR i, 1, n
+            EQUB $00
+        NEXT
+    ENDIF
+ENDMACRO
+
         ORG     $8000
         GUARD   guard_value
 
@@ -460,30 +470,17 @@ ENDIF
 .L8065
 
 IF PATCH_IDE
-        RTS
-
-        PAD     4
-
-IF PATCH_PRESERVE_CONTEXT
-.ReadBreak
-        LDA     L028D
-        AND     #$01
-        RTS
-ELSE
-        PAD     6
-ENDIF
-        PAD     1
-
-.WaitForData
-        LDA     LFC47
-        AND     #$08
-        BEQ     WaitForData
-        RTS
-
-.MountCheck
-        JSR     LA15E
-        JMP     L9B38
-
+    IF PRESERVE_PADDING AND (P% <> $8065)
+        ERROR "ide_block_1 started at incorrect address (not &8065)"
+    ENDIF
+    IF PATCH_IDE_JGH
+        INCLUDE "IDE2X_1.asm"
+    ELSE
+        INCLUDE "IDE18_1.asm"
+    ENDIF
+    IF PRESERVE_PADDING AND (P% <> $8080)
+        ERROR "ide_block_1 ended at incorrect address (not &8080)"
+    ENDIF
 ELSE
 
         LDY     #$00
@@ -505,14 +502,18 @@ ELSE
         AND     #$02
         BEQ     L8078
 
-ENDIF
-
 .L807F
         RTS
+
+ENDIF
 
 .L8080
         LDA     L1000
         STA     L00CE
+
+IF PATCH_IDE_JGH
+.L807F
+ENDIF
         RTS
 
 .L8086
@@ -627,156 +628,17 @@ ENDIF
 .L8114
 IF PATCH_IDE
 
-        JMP     BYE
-        PAD     4
-
-.CommandSaveLp1
-        LDY     #$09
-
-.CommandSaveLp
-        LDA     L007F,Y
-        PHA
-        LDA     (L00B0),Y
-        STA     L007F,Y
-        DEY
-        BNE     CommandSaveLp
-
-        LDA     L00B0
-        PHA
-        LDA     L00B1
-        PHA
-        JSR     UpdateDrive
-        STA     L00B0
-        STY     L00B1
-        PHP
-        JSR     SetGeometry
-        PLP
-
-.CommandLoop
-        LDX     #$02
-
-.Twice
-        BIT     L00CD
-        BVC     CommandStart
-        PHP
-        TXA
-        PHA
-        LDX     #$27
-        LDY     #$10
-        LDA     #$00
-        ROL     A
-        EOR     #$01
-        JSR     SetTubeAction+1
-        PLA
-        TAX
-        PLP
-
-.CommandStart
-        JSR     SetSector
-
-.TransferLoop
-        JSR     WaitForData
-        AND     #$21
-        BNE     TransDone
-        BIT     L00CD
-        BVS     TransTube
-        BCC     IORead
-
-.IOWrite
-        LDA     (L0080),Y
-        STA     LFC40
-        JMP     TransferByte
-
-.IORead
-        LDA     LFC40
-        STA     (L0080),Y
-        JMP     TransferByte
-
-.TransTube
-        BCC     TubeRead
-
-.TubeWrite
-        LDA     LFEE5
-        STA     LFC40
-        JMP     TransferByte
-
-.TubeRead
-        LDA     LFC40
-        STA     LFEE5
-        JMP     TransferByte
-
-.CommandLoop1
-        JMP     CommandLoop
-
-.L818A
-
-.CommandDone
-        JSR     GetResult
-
-.CommandExit
-        PHA
-        JSR     L8043
-        PLA
-        LDX     L00B0
-        LDY     L00B1
-        AND     #$7F
-        RTS
-
-.TransferByte
-        INY
-        BNE     TransferLoop
-        DEX
-        BNE     Twice
-        INC     L0081
-        LDA     LFC47
-        AND     #$21
-        BNE     TransDone
-        INC     L1028
-        BNE     TubeAddr
-        INC     L1029
-        BNE     TubeAddr
-        INC     L102A
-
-.TubeAddr
-        INC     L0087
-        BNE     TransCount
-        INC     L0086
-        BNE     TransCount
-        INC     L0085
-
-.TransCount
-        DEC     L0088
-        BNE     CommandLoop1
-
-.TransDone
-        PLA
-        STA     L00B1
-        PLA
-        STA     L00B0
-        INY
-
-.CommandRestore
-        PLA
-        STA     L007F,Y
-        INY
-        CPY     #$0A
-        BNE     CommandRestore
-        BEQ     CommandDone
-
-.SetGeometry
-        JSR     WaitNotBusy
-        LDA     #$40
-        STA     LFC42
-        STA     LFC43
-        LDY     #$06
-        LDA     (L00B0),Y
-        LSR     A
-        LSR     A
-        ORA     #$03
-        JSR     SetDriveA
-        LDA     #$91
-        BNE     SetCmd
-.SetTubeAction
+    IF PRESERVE_PADDING AND (P% <> $8114)
+        ERROR "ide_block_2 started at incorrect address (not &8114)"
+    ENDIF
+    IF PATCH_IDE_JGH
+        INCLUDE "IDE2X_2.asm"
+    ELSE
+        INCLUDE "IDE18_2.asm"
+    ENDIF
+    IF PRESERVE_PADDING AND (P% <> $81EF)
+        ERROR "ide_block_2 ended at incorrect address (not &81EF)"
+    ENDIF
 
 ELSE
         LDY     #$05
@@ -953,6 +815,7 @@ ENDIF
 
         LDY     #$00
 
+.L81F5
         JSR     L81F8
 
 .L81F8
@@ -963,106 +826,19 @@ ENDIF
 
 IF PATCH_IDE
 
-.SetSector
-        PHP
-        JSR     WaitNotBusy
-        LDY     #$08
-        LDA     #$01
-        STA     LFC42
-        CLC
-        LDA     (L00B0),Y
-        AND     #$3F
-        ADC     #$01
-        STA     LFC43
-        DEY
-        LDA     (L00B0),Y
-        ADC     #$00
-        STA     LFC44
-        DEY
-        LDA     (L00B0),Y
-        JSR     SetCylinder
-        INY
-        INY
-        EOR     (L00B0),Y
-        AND     #$02
-        EOR     (L00B0),Y
-        JSR     SetDrive
-        DEY
-        DEY
-        DEY
-        LDA     (L00B0),Y
-
-.SetCommand
-        AND     #$02
-        PHA
-        EOR     #$02
-        LSR     A
-        LSR     A
-        PLA
-        ASL     A
-        ASL     A
-        ASL     A
-        ORA     #$20
-        LDY     #$0
-        PLP
-
-.SetCmd
-        STA     LFC47
-        RTS
-
-.SetDrive
-        ROL     A
-        ROL     A
-        ROL     A
-
-.SetDriveA
-        AND     #$13
-        STA     LFC46
-        RTS
-
-
-.SetCylinder
-        PHA
-        AND     #$3F
-        ADC     #$00
-        STA     LFC45
-        PLA
-        ROL     A
-        ROL     A
-        ROL     A
-        ROL     A
-        RTS
-
-
-.SetRandom
-        JSR     SetCylinder
-        EOR     L1001,X
-        AND     #$02
-        EOR     L1001,X
-        JSR     SetDrive
-        PLA
-        JMP     SetCommand1
-
-.GetResult
-        LDA     LFC47
-        AND     #$21
-        BEQ     GetResOk
-        ORA     LFC41
-        LDX     #$FF
-
-.GetResLp
-        INX
-        ROR     A
-        BCC     GetResLp
-        LDA     ResultCodes,X
-
-.GetResOk
-        RTS
-
-        PAD     7
+    IF PRESERVE_PADDING AND (P% <> $81FC)
+        ERROR "ide_block_3 started at incorrect address (not &81FC)"
+    ENDIF
+    IF PATCH_IDE_JGH
+        INCLUDE "IDE2X_3.asm"
+    ELSE
+        INCLUDE "IDE18_3.asm"
+    ENDIF
+    IF PRESERVE_PADDING AND (P% <> $8287)
+        ERROR "ide_block_3 ended at incorrect address (not &8287)"
+    ENDIF
 
 ELSE
-
 
 .L81FC
         LDX     #$27
@@ -1232,6 +1008,17 @@ ENDIF
         EQUS    "Disc protected"
         EQUB    $00
 
+IF PATCH_IDE_JGH
+.TubeStore
+        JSR     TubeStore2
+
+        STA     LFEE5
+
+.TubeStore2
+        RTS
+
+        PAD00   3
+ELSE
 .L82FB
         JSR     L8301
 
@@ -1243,23 +1030,30 @@ ENDIF
         JSR     L831B
 
         RTS
+ENDIF
 
 .L8305
 IF PATCH_IDE
-.FakeComplete
         LDA     L00CD
         AND     #$FE
         STA     L00CD
         RTS
+    IF PATCH_IDE_JGH
+        PAD00     3
+    ELSE
+        BNE     L8305
+        RTS
+    ENDIF
+
 ELSE
         LDA     #$01
         PHP
         CLI
         PLP
         BIT     L00CD
-ENDIF
         BNE     L8305
         RTS
+ENDIF
 
 .L830F
 IF PATCH_IDE
@@ -1285,6 +1079,9 @@ ELSE
         RTS
 ENDIF
 
+IF PATCH_IDE_JGH
+        PAD00   16
+ELSE
 .L831B
         JSR     L830F
 
@@ -1298,6 +1095,7 @@ ENDIF
         PLA
         PLA
         JMP     L818A
+ENDIF
 
 .L832B
         LDX     L102F
@@ -2809,7 +2607,11 @@ ENDIF
         BIT     L00CD
         BVC     L8BAA
 
+IF PATCH_TUBE_DELAY
+        JSR     L81F5
+ELSE
         JSR     L81F8
+ENDIF
 
         STA     LFEE5
         BVS     L8BAC
@@ -2995,7 +2797,7 @@ IF PATCH_FULL_ACCESS
         DEY
         BPL     RdLp
         LDA     L102B
-        LDY     #&0E
+        LDY     #$0E
         STA     (L00B8),Y
         RTS
         PAD     2
@@ -3618,7 +3420,7 @@ ENDIF
         RTS
 
 .L8FEA
-IF PATCH_IDE
+IF PATCH_IDE AND NOT(PATCH_IDE_JGH)
         RTS
 
 ;; Junk bytes....
@@ -4188,7 +3990,13 @@ ENDIF
         JSR     LA016
 
         LDY     #$04
+
+IF PATCH_IDE_JGH
+        LDX     #$04
+ELSE
         LDX     #$03
+ENDIF
+
 .L92EA
         LDA     (L00B6),Y
         ROL     A
@@ -4221,7 +4029,12 @@ ENDIF
         LDA     #$29
         JSR     LFFEE
 
+IF PATCH_IDE_JGH
+        LDA     #$20
+        RTS
+ELSE
         JMP     LA016
+ENDIF
 
 .L9316
         EQUS    "RWLDE"
@@ -4552,8 +4365,21 @@ ENDIF
 
         JSR     LFFEE
 
+IF PATCH_INFO AND PATCH_IDE_JGH
+
+        JMP     L9517
+
+        PAD00   13
+
+.L9517
+        LDX     #$0A
+        LDY     #$0D
+
+ELSE
+
         LDY     #$04
         LDA     (L00B6),Y
+
 IF PATCH_INFO
         PAD      2
 ELSE
@@ -4570,8 +4396,11 @@ ELSE
         BCC     L951B
 ENDIF
 
+.L9517
         LDX     #$17
         LDY     #$18
+ENDIF
+
 .L951B
         CPX     #$16
         BEQ     L9524
@@ -5290,11 +5119,17 @@ IF PATCH_FULL_ACCESS
         BNE     L99C9
 .L999E:
         LDA     (L00B6),Y
-        AND     #&7F
+        AND     #$7F
         STA     (L00B6),Y
         DEY
         RTS
+
+IF PATCH_IDE_JGH
+        PAD00   4
+ELSE
         PAD     4
+ENDIF
+
 ELSE
         JSR     L9945
 
@@ -5433,7 +5268,22 @@ ENDIF
         EQUB    $00,$00,$00,$02
 
 .L9A63
-IF PATCH_IDE
+IF PATCH_IDE_JGH
+
+        LDX     LFC47
+        INX
+        BEQ     DriveNotPresent
+        LDA     #$00
+        RTS
+
+.DriveNotPresent
+        DEX
+        RTS
+
+        PAD00   10
+
+ELIF PATCH_IDE
+
         LDA     LFC47
         CLC
         ADC     #$01
@@ -5653,6 +5503,7 @@ ENDIF
         CPY     #$08
         BNE     L9B37
 
+.L9B3C
         TYA
         PHA
         PHA
@@ -5813,7 +5664,18 @@ ENDIF
 
         JSR     LB47C
 
-IF PATCH_IDE
+IF PATCH_IDE_JGH
+        LDA     L111B
+        CMP     #$FF
+        BNE     L9C74
+        LDA     L00CD
+        AND     #$20
+        BEQ     L9C74
+        BNE     L9C3B
+        PAD00   3
+.L9C3B
+
+ELIF PATCH_IDE
         LDA     L111B
         CLC
         ADC     #$01
@@ -6631,29 +6493,15 @@ ENDIF
         JMP     L8BD7
 
 .LA0C3
-IF PATCH_IDE
-        RTS
+IF PATCH_IDE AND NOT(PATCH_IDE_JGH)
 
-.BYE
-        LDY     #$05
-        LDA     (L00B0),Y
-        CMP     #$09            ; Get command, CC=Read, CS=Write
-        AND     #$FD
-        EOR     #$08
-        BEQ     CommandOk       ; Jump if Read (&08) or Write (&0A)
-        LDA     #$60
-        JMP     CommandExit     ; Return 'bad command' otherwise
-
-.CommandOk
-        JMP     CommandSaveLp1  ; Memory FULL
-
-.SetCommand1
-        PHP
-        JMP     SetCommand
-
-;; Junk bytes....
-
-        EQUB $11,$38,$E9,$20,$8D,$17,$11,$B0,$EE
+    IF PRESERVE_PADDING AND (P% <> $A0C3)
+         ERROR "ide_block_4 started at incorrect address (not &A0C3)"
+    ENDIF
+        INCLUDE "IDE18_4.asm"
+    IF PRESERVE_PADDING AND (P% <> $A0E5)
+         ERROR "ide_block_4 ended at incorrect address (not &A0E5)"
+    ENDIF
 
 ELSE
         LDA     L1117
@@ -8350,6 +8198,12 @@ ENDIF
         JSR     L8305
 
 IF PATCH_IDE
+
+    IF PATCH_IDE_JGH
+        ; This was in JGH's code, but it causes Panos to fail to boot
+        ; JSR     SetGeometry
+        PAD 3
+    ENDIF
         JSR     WaitNotBusy
 
         LDA     #$01
@@ -8360,13 +8214,18 @@ IF PATCH_IDE
         ADC     #$01
         STA     LFC43     ; Set sector b0-b5
         LDA     L1002,X
+    IF NOT(PATCH_IDE_JGH)
         ADC     #$00
+    ENDIF
         STA     LFC44     ; Set sector b8-b15
         LDA     L1003,X
         STA     L1133
         JMP     SetRandom ; Set sector b16-b21
-
+   IF PATCH_IDE_JGH
+        PAD00   1
+   ELSE
         PAD     2
+   ENDIF
 
 ELSE
 
@@ -8509,9 +8368,13 @@ IF PATCH_IDE
         ORA     L1117
         STA     L0085       ; Merge with current drive
         STA     L1133
-        LDA     #&7F
+        LDA     #$7F
         RTS                 ; Store for any error
+    IF PATCH_IDE_JGH
+        PAD00   1
+    ELSE
         PAD     1
+    ENDIF
 ELSE
 
         LDA     L00CD
@@ -8524,6 +8387,12 @@ ELSE
         CMP     #$F2
         BEQ     LAB8A
 ENDIF
+
+IF PATCH_IDE_JGH
+
+        PAD00   30
+
+ELSE
 
 .LAB87
         LDA     #$05
@@ -8543,6 +8412,7 @@ ENDIF
         ORA     LFC40
         STA     L1131
         JMP     L9D63
+ENDIF
 
 .LABA5
         LDA     L1131
@@ -10435,7 +10305,11 @@ ENDIF
         BIT     L00CD
         BVC     LB863
 
+IF PATCH_TUBE_DELAY
+        JSR     TubeStore
+ELSE
         STA     LFEE5
+ENDIF
         RTS
 
 .LB863
@@ -11685,6 +11559,21 @@ ENDIF
 .LBF66
         LDA     #$61
         STA     L00A0
+
+IF PATCH_DATACENTRE
+
+        BNE     LBFAE
+.LBF6A
+.LBF6C
+        LDX     L00B0
+        LDY     L00B1
+        LDA     #$76
+        JSR     LFFF1
+        JMP     LBFAE
+        PAD00   14
+
+ELSE
+
 .LBF6A
         BNE     LBFAE
 
@@ -11707,6 +11596,7 @@ ENDIF
         LDA     #$63
         STA     L00A0
         BNE     LBFAE
+ENDIF
 
 .LBF86
         LDY     #$07
@@ -11785,7 +11675,11 @@ ENDIF
 
 IF PRESERVE_PADDING
         EQUS    "and Hugo."
+    IF PATCH_IDE_JGH
+        EQUB    $23
+    ELSE
         EQUB    $0D
+    ENDIF
 ENDIF
 
 PRINT "    code ends at",~P%," (",(guard_value - P%), "bytes free )"

@@ -32,6 +32,9 @@ do
         exit
     fi
 
+    # Create a hex file
+    od -v -Ax -tx1 ../build/${name} > ../build/${name}.hex
+
     # Create the .inf file
     echo -e "\$."${name}"\t8000\t8000" > ../build/${name}.inf
 
