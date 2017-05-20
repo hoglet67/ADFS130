@@ -46,6 +46,9 @@ do
 
     # Report build checksum
     echo "    mdsum is "`md5sum <../build/${name}`
+
+    # Add a .rom suffix
+    mv ../build/${name} ../build/${name}.rom
 done
 cd ..
 
