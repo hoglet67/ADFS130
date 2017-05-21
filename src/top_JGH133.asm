@@ -33,7 +33,7 @@ MACRO INSERT_VERSION_BIN
         EQUS    $33
 ENDMACRO
 MACRO INSERT_HELP_STR
-        EQUS    "Acorn ADFS 1.33r3"
+        EQUS    "Acorn ADFS 1.33r23"
 ENDMACRO
 
 ; Note: this generates a version with the same md5sum as ADFS133

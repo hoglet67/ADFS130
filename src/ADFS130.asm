@@ -5980,8 +5980,12 @@ ENDIF
 .L9DBE
         TYA
         PHA
+IF PATCH_IDE_JGH
+        JSR     GetChar
+ELSE
         LDA     (L00F2),Y
         CMP     #$20
+ENDIF
         BCS     L9DEF
 
         JSR     L9DA7
@@ -8370,9 +8374,7 @@ IF PATCH_IDE
         STA     L1133
         LDA     #$7F
         RTS                 ; Store for any error
-    IF PATCH_IDE_JGH
-        PAD00   1
-    ELSE
+    IF NOT(PATCH_IDE_JGH)
         PAD     1
     ENDIF
 ELSE
@@ -8390,7 +8392,11 @@ ENDIF
 
 IF PATCH_IDE_JGH
 
-        PAD00   30
+.GetChar
+        LDA     (L00F2),Y
+        CMP     #&20
+        RTS
+        PAD00   26
 
 ELSE
 

@@ -17,17 +17,14 @@ TUBE_BASE                = $FCE0
 VIA_BASE                 = $FCB0
 
 ; Whether to preserve padding, for binary comparison with known versions
-PRESERVE_PADDING         = FALSE
-
-; Common build version
-include "BUILD.asm"
+PRESERVE_PADDING         = TRUE
 
 ; Version macros
 MACRO INSERT_NAME_STR
-        EQUS    "Electron ADFS"
+        EQUS    "Acorn ADFS"
 ENDMACRO
 MACRO INSERT_COPYRIGHT_STR
-        EQUS    "(C)2017 Acorn"
+        EQUS    "(C)1983 Acorn"
 ENDMACRO
 MACRO INSERT_VERSION_STR
         EQUS    "1.00"
@@ -36,11 +33,8 @@ MACRO INSERT_VERSION_BIN
         EQUS    $00
 ENDMACRO
 MACRO INSERT_HELP_STR
-        INSERT_NAME_STR
-        EQUS " "
+        EQUS    "Advanced DFS "
         INSERT_VERSION_STR
-        EQUS "."
-        INSERT_BUILD_STR
 ENDMACRO
 
 ; Include common source file
