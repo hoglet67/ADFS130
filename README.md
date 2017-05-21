@@ -15,7 +15,7 @@ __src/top_ADFS130.asm__
 
 * The original Acorn ADFS for the Model B
 * preserves all padding and dead code
-* contains a HELP message Advanced DFS 1.30
+* contains HELP message: Advanced DFS 1.30
 * md5sum = 831ee90ac5d49ba5507252faf0c12536 (will never change)
 * 0 bytes free
 
@@ -26,7 +26,7 @@ __src/top_ADFS133.asm__
 * excludes the PRESERVE CONTEXT patch
 * excludes the TUBE DELAY patch
 * doesn't preserve padding, so code is squished up and dead code removed
-* contains a HELP message Acorn ADFS 1.33.002 (with my build number)
+* contains HELP message: Acorn ADFS 1.33.002 (with my build number)
 * md5sum = b41f6c376fc1d85aa0d271673cc753d9 (will change)
 * currently 151 bytes free
 
@@ -35,6 +35,7 @@ __src/top_DC133.asm__
 * The IDE version of Acorn ADFS shipped in 2008 with Data Centre
 * includes JGH's v1.18 IDE Patch
 * preserves all padding and dead code
+* contains HELP message: Advanced DFS 1.30
 * md5sum = c7714bd93602fdc11d2cdaab4af03b07 (will never change)
 * 0 bytes free
 
@@ -43,7 +44,7 @@ __src/top_ELK100.asm__
 * Non-original ADFS 1.00 for the Acorn Electron
 * identical to ADFS 1.30, but with Electrion I/O addresses
 * preserves all padding and dead code
-* contains a HELP message Advanced DFS 1.00
+* contains HELP message: Advanced DFS 1.00
 * md5sum = 94894dc78c0c4bf5037a004412267078 (probably won't change)
 * 0 bytes free
 
@@ -54,7 +55,7 @@ __src/top_ELK103.asm__
 * excludes the PRESERVE CONTEXT patch
 * excludes the TUBE DELAY patch
 * doesn't preserve padding, so code is squished up and dead code removed
-* contains a HELP message Electron ADFS 1.03.002 (with my build number)
+* contains HELP message: Electron ADFS 1.03.002 (with my build number)
 * md5sum = a7f9ea616769d27f6df1316b86b00cbe (will change)
 * currently 142 bytes free
 
@@ -64,7 +65,8 @@ __src/top_JGH133.asm__
 * contains his complete v1.23 IDE patch
 * identical to the version here: http://mdfs.net/Info/Comp/BBC/IDE/ADFS/ADFS133
 * preserves all padding and dead code
-* md5sum = 2be42f51899aded44607c5167d72e34d
+* contains HELP message: Acorn ADFS 1.33r23
+* md5sum = 2be42f51899aded44607c5167d72e34d (will change)
 * 0 bytes free
 
 ## Full build log
