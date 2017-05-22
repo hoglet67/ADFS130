@@ -1,4 +1,4 @@
-# Acorn ADFS 1.0x / 1.3x - Release 002
+# Acorn ADFS 1.0x / 1.3x - Release 003
 
 ## Summary
 
@@ -27,7 +27,7 @@ __src/top_ADFS133.asm__
 * excludes the TUBE DELAY patch
 * doesn't preserve padding, so code is squished up and dead code removed
 * contains HELP message: Acorn ADFS 1.33.002 (with my build number)
-* md5sum = b41f6c376fc1d85aa0d271673cc753d9 (will change)
+* md5sum = 802d9dff4964eef91f7aa43add0f1aa5 (will change)
 * currently 151 bytes free
 
 __src/top_DC133.asm__
@@ -45,7 +45,7 @@ __src/top_ELK100.asm__
 * identical to ADFS 1.30, but with Electrion I/O addresses
 * preserves all padding and dead code
 * contains HELP message: Advanced DFS 1.00
-* md5sum = 94894dc78c0c4bf5037a004412267078 (probably won't change)
+* md5sum = 883ab9513765f25d16277fce4a4581bc (might change)
 * 0 bytes free
 
 __src/top_ELK103.asm__
@@ -56,8 +56,8 @@ __src/top_ELK103.asm__
 * excludes the TUBE DELAY patch
 * doesn't preserve padding, so code is squished up and dead code removed
 * contains HELP message: Electron ADFS 1.03.002 (with my build number)
-* md5sum = a7f9ea616769d27f6df1316b86b00cbe (will change)
-* currently 142 bytes free
+* md5sum = da081bc503368cdb621e5d3f6588a968 (will change)
+* currently 7 bytes free
 
 __src/top_JGH133.asm__
 
@@ -78,16 +78,16 @@ Building ADFS130...
     mdsum is 831ee90ac5d49ba5507252faf0c12536 -
 Building ADFS133...
     code ends at &BF69  ( 151 bytes free ) 
-    mdsum is b41f6c376fc1d85aa0d271673cc753d9 -
+    mdsum is 802d9dff4964eef91f7aa43add0f1aa5 -
 Building DC133...
     code ends at &C000  ( 0 bytes free ) 
     mdsum is c7714bd93602fdc11d2cdaab4af03b07 -
 Building ELK100...
     code ends at &C000  ( 0 bytes free ) 
-    mdsum is 94894dc78c0c4bf5037a004412267078 -
+    mdsum is 883ab9513765f25d16277fce4a4581bc -
 Building ELK103...
-    code ends at &BF72  ( 142 bytes free ) 
-    mdsum is a7f9ea616769d27f6df1316b86b00cbe -
+    code ends at &BFF9  ( 7 bytes free ) 
+    mdsum is da081bc503368cdb621e5d3f6588a968 -
 Building JGH133...
     code ends at &C000  ( 0 bytes free ) 
     mdsum is 2be42f51899aded44607c5167d72e34d -
