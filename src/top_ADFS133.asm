@@ -1,3 +1,8 @@
+; Define platforms
+PLAT_ELK                 = 1
+PLAT_BBC                 = 2
+PLATFORM                 = PLAT_BBC
+
 ; Optional ADFS patches
 PATCH_IDE                = TRUE    ; replace SCSI drivers with IDE
 PATCH_IDE_JGH            = TRUE    ; track JGH's latest IDE patch
@@ -10,8 +15,6 @@ PATCH_TUBE_DELAY         = FALSE   ; add additional delay to tube accesses for 6
 PATCH_DATACENTRE         = TRUE    ; forward on to DataCentre OSWORD &76
         
 ; IO specific addresses
-FDC_BASE                 = $FE80
-ROM_LATCH                = $FE30
 SCSI_IDE_BASE            = $FC40
 TUBE_BASE                = $FEE0
 VIA_BASE                 = $FE40
