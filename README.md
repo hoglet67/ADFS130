@@ -1,4 +1,4 @@
-# Acorn ADFS 1.0x / 1.3x - Release 004
+# Acorn ADFS 1.0x / 1.3x - Release 005
 
 ## Summary
 
@@ -26,8 +26,8 @@ __src/top_ADFS133.asm__
 * excludes the PRESERVE CONTEXT patch
 * excludes the TUBE DELAY patch
 * doesn't preserve padding, so code is squished up and dead code removed
-* contains HELP message: Acorn ADFS 1.33.002 (with my build number)
-* md5sum = 5b927a04f3d61687388fbbf0659f6d34 (will change)
+* contains HELP message: Acorn ADFS 1.33.005 (with my build number)
+* md5sum = 0017f3c9d714c39155f2c7a34970f877 (will change)
 * currently 151 bytes free
 
 __src/top_DC133.asm__
@@ -55,8 +55,8 @@ __src/top_ELK103.asm__
 * excludes the PRESERVE CONTEXT patch
 * excludes the TUBE DELAY patch
 * doesn't preserve padding, so code is squished up and dead code removed
-* contains HELP message: Electron ADFS 1.03.002 (with my build number)
-* md5sum = 882e2139e76f27944396c70d18c57869 (will change)
+* contains HELP message: Electron ADFS 1.03.005 (with my build number)
+* md5sum = b5d9e7b96ff7da16f49c42c67382cb14 (will change)
 * currently 7 bytes free
 
 __src/top_JGH133.asm__
@@ -74,7 +74,7 @@ __src/top_MAST130.asm__
 * Acorn ADFS 1.30 adapted for the Master register addresses
 * preserves all padding and dead code
 * contains HELP message: Advanced DFS 1.30
-* md5sum = eba60d5fa071148444581bb65fb2d75b
+* md5sum = a9014b75fc0e1efbbe89acb20c4a75b8
 * 0 bytes free
 
 ## Full build log
@@ -86,7 +86,7 @@ Building ADFS130...
     mdsum is 831ee90ac5d49ba5507252faf0c12536 -
 Building ADFS133...
     code ends at &BF69  ( 151 bytes free )
-    mdsum is 5b927a04f3d61687388fbbf0659f6d34 -
+    mdsum is 0017f3c9d714c39155f2c7a34970f877 -
 Building DC133...
     code ends at &C000  ( 0 bytes free )
     mdsum is c7714bd93602fdc11d2cdaab4af03b07 -
@@ -95,13 +95,13 @@ Building ELK100...
     mdsum is 883ab9513765f25d16277fce4a4581bc -
 Building ELK103...
     code ends at &BFF9  ( 7 bytes free )
-    mdsum is 882e2139e76f27944396c70d18c57869 -
+    mdsum is b5d9e7b96ff7da16f49c42c67382cb14 -
 Building JGH133...
     code ends at &C000  ( 0 bytes free )
     mdsum is 2be42f51899aded44607c5167d72e34d -
 Building MAST130...
     code ends at &C000  ( 0 bytes free )
-    mdsum is eba60d5fa071148444581bb65fb2d75b -
+    mdsum is a9014b75fc0e1efbbe89acb20c4a75b8 -
 
 Disk title:  (1)  Disk size: &320 - 200K
 Boot Option: 0 (None)   File count: 7
