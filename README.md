@@ -1,4 +1,4 @@
-# Acorn ADFS 1.0x / 1.3x - Release 003
+# Acorn ADFS 1.0x / 1.3x - Release 004
 
 ## Summary
 
@@ -21,7 +21,7 @@ __src/top_ADFS130.asm__
 
 __src/top_ADFS133.asm__
 
-* My preferred Acorn ADFS build with IDE drivers for the Model B 
+* My preferred Acorn ADFS build with IDE drivers for the Model B
 * includes most of JGH's v1.23 IDE Patch
 * excludes the PRESERVE CONTEXT patch
 * excludes the TUBE DELAY patch
@@ -69,33 +69,45 @@ __src/top_JGH133.asm__
 * md5sum = 2be42f51899aded44607c5167d72e34d (will change)
 * 0 bytes free
 
+__src/top_MAST130.asm__
+
+* Acorn ADFS 1.30 adapted for the Master register addresses
+* preserves all padding and dead code
+* contains HELP message: Advanced DFS 1.30
+* md5sum = eba60d5fa071148444581bb65fb2d75b
+* 0 bytes free
+
 ## Full build log
 ```
 Blank build/adfs.ssd created
 
 Building ADFS130...
-    code ends at &C000  ( 0 bytes free ) 
+    code ends at &C000  ( 0 bytes free )
     mdsum is 831ee90ac5d49ba5507252faf0c12536 -
 Building ADFS133...
-    code ends at &BF69  ( 151 bytes free ) 
+    code ends at &BF69  ( 151 bytes free )
     mdsum is 802d9dff4964eef91f7aa43add0f1aa5 -
 Building DC133...
-    code ends at &C000  ( 0 bytes free ) 
+    code ends at &C000  ( 0 bytes free )
     mdsum is c7714bd93602fdc11d2cdaab4af03b07 -
 Building ELK100...
-    code ends at &C000  ( 0 bytes free ) 
+    code ends at &C000  ( 0 bytes free )
     mdsum is 883ab9513765f25d16277fce4a4581bc -
 Building ELK103...
-    code ends at &BFF9  ( 7 bytes free ) 
+    code ends at &BFF9  ( 7 bytes free )
     mdsum is da081bc503368cdb621e5d3f6588a968 -
 Building JGH133...
-    code ends at &C000  ( 0 bytes free ) 
+    code ends at &C000  ( 0 bytes free )
     mdsum is 2be42f51899aded44607c5167d72e34d -
+Building MAST130...
+    code ends at &C000  ( 0 bytes free )
+    mdsum is eba60d5fa071148444581bb65fb2d75b -
 
 Disk title:  (1)  Disk size: &320 - 200K
-Boot Option: 0 (None)   File count: 6
+Boot Option: 0 (None)   File count: 7
 
 Filename:  Lck Lo.add Ex.add Length Sct
+$.MAST130      008000 008000 004000 182
 $.JGH133       008000 008000 004000 142
 $.ELK103       008000 008000 004000 102
 $.ELK100       008000 008000 004000 0C2

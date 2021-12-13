@@ -1,9 +1,3 @@
-LFE80   = $FE80
-LFE84   = $FE84
-LFE85   = $FE85
-LFE86   = $FE86
-LFE87   = $FE87
-
 LFE30   = $FE30
 
 .LBA00
@@ -88,11 +82,11 @@ LFE30   = $FE30
         AND     #$20
         BNE     LBA72
 
-        LDA     #$21
+        LDA     #DS0SEL
         BNE     LBA74
 
 .LBA72
-        LDA     #$22
+        LDA     #DS1SEL
 .LBA74
         STA     L0D5E
         ROR     L10E4
@@ -566,14 +560,14 @@ LFE30   = $FE30
 IF PRESERVE_PADDING
         ;; TODO/FIX - how is this referenced?
         LDA     L0D5E
-        AND     #$FB
+        AND     #($FF-SIDESEL)
         STA     L0D5E
         RTS
 ENDIF
 
 .LBD22
         LDA     L0D5E
-        ORA     #$04
+        ORA     #SIDESEL
         STA     L0D5E
         RTS
 
@@ -830,7 +824,7 @@ ENDIF
         BCC     LBECF
 
         LDA     L0D5E
-        AND     #$04
+        AND     #SIDESEL
         BEQ     LBEBC
 
         LDX     #$00
@@ -905,11 +899,11 @@ ENDIF
         AND     #$20
         BNE     LBF23
 
-        LDA     #$21
+        LDA     #DS0SEL
         BNE     LBF25
 
 .LBF23
-        LDA     #$22
+        LDA     #DS1SEL
 .LBF25
         STA     L0D5E
         ROR     L10E4
@@ -1070,7 +1064,7 @@ ENDIF
         LDY     L00B1
         AND     #$7F
         RTS
-        
+
 IF PRESERVE_PADDING
         EQUS    "and Hugo."
     IF PATCH_IDE_JGH

@@ -10612,7 +10612,31 @@ IF PLATFORM = PLAT_ELK
 
 INCLUDE "floppy_electron.asm"
 
+ELIF PLATFORM = PLAT_BBC
+
+DS0SEL  = $21
+DS1SEL  = $22
+SIDESEL = $04
+
+LFE80   = $FE80
+LFE84   = $FE84
+LFE85   = $FE85
+LFE86   = $FE86
+LFE87   = $FE87
+
+INCLUDE "floppy_bbc.asm"
+
 ELSE
+
+DS0SEL  = $05
+DS1SEL  = $06
+SIDESEL = $10
+
+LFE80   = $FE24
+LFE84   = $FE28
+LFE85   = $FE29
+LFE86   = $FE2A
+LFE87   = $FE2B
 
 INCLUDE "floppy_bbc.asm"
 
