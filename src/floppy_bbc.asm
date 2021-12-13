@@ -22,9 +22,20 @@ LFE30   = $FE30
         CMP     #$5A
         BNE     LBA25
 
+IF PLATFORM = PLAT_BBC
+;; this test fails on the Master
         LDA     LFE80
         AND     #$03
         BEQ     LBA25
+ELSE
+        NOP
+        NOP
+        NOP
+        NOP
+        NOP
+        NOP
+        NOP
+ENDIF
 
         CLC
 .LBA25
