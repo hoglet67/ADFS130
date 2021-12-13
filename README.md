@@ -27,7 +27,7 @@ __src/top_ADFS133.asm__
 * excludes the TUBE DELAY patch
 * doesn't preserve padding, so code is squished up and dead code removed
 * contains HELP message: Acorn ADFS 1.33.002 (with my build number)
-* md5sum = 802d9dff4964eef91f7aa43add0f1aa5 (will change)
+* md5sum = 5b927a04f3d61687388fbbf0659f6d34 (will change)
 * currently 151 bytes free
 
 __src/top_DC133.asm__
@@ -56,7 +56,7 @@ __src/top_ELK103.asm__
 * excludes the TUBE DELAY patch
 * doesn't preserve padding, so code is squished up and dead code removed
 * contains HELP message: Electron ADFS 1.03.002 (with my build number)
-* md5sum = da081bc503368cdb621e5d3f6588a968 (will change)
+* md5sum = 882e2139e76f27944396c70d18c57869 (will change)
 * currently 7 bytes free
 
 __src/top_JGH133.asm__
@@ -86,7 +86,7 @@ Building ADFS130...
     mdsum is 831ee90ac5d49ba5507252faf0c12536 -
 Building ADFS133...
     code ends at &BF69  ( 151 bytes free )
-    mdsum is 802d9dff4964eef91f7aa43add0f1aa5 -
+    mdsum is 5b927a04f3d61687388fbbf0659f6d34 -
 Building DC133...
     code ends at &C000  ( 0 bytes free )
     mdsum is c7714bd93602fdc11d2cdaab4af03b07 -
@@ -95,7 +95,7 @@ Building ELK100...
     mdsum is 883ab9513765f25d16277fce4a4581bc -
 Building ELK103...
     code ends at &BFF9  ( 7 bytes free )
-    mdsum is da081bc503368cdb621e5d3f6588a968 -
+    mdsum is 882e2139e76f27944396c70d18c57869 -
 Building JGH133...
     code ends at &C000  ( 0 bytes free )
     mdsum is 2be42f51899aded44607c5167d72e34d -
