@@ -356,14 +356,14 @@ LFC46   = SCSI_IDE_BASE + 6
 LFC47   = SCSI_IDE_BASE + 7
 LFE44   = VIA_BASE + 4
 LFEE5   = TUBE_BASE + 5
-LFFDA   = $FFDA
-LFFE0   = $FFE0
-LFFE3   = $FFE3
-LFFE7   = $FFE7
-LFFEE   = $FFEE
-LFFF1   = $FFF1
-LFFF4   = $FFF4
-LFFF7   = $FFF7
+OSARGS  = $FFDA
+OSRDCH  = $FFE0
+OSASCI  = $FFE3
+OSNEWL  = $FFE7
+OSWRCH  = $FFEE
+OSWORD  = $FFF1
+OSBYTE  = $FFF4
+OSCLI   = $FFF7
 LFFFF   = $FFFF
 
 MACRO PAD n
@@ -962,7 +962,7 @@ ENDIF
 
 .L82A6
         LDA     #$7E
-        JSR     LFFF4
+        JSR     OSBYTE
 
         JSR     L8476
 
@@ -1363,11 +1363,11 @@ ENDIF
 .L84A0
         LDY     #$FF
         LDX     #$00
-        JMP     LFFF4
+        JMP     OSBYTE
 
 .L84A7
         LDY     #>exec_spool_table
-        JMP     LFFF7
+        JMP     OSCLI
 
 .L84AC
         EQUB    $0D
@@ -3966,7 +3966,7 @@ ENDIF
         PHA
         TSX
         LDA     L0104,X
-        JSR     LFFE3
+        JSR     OSASCI
 
         PLA
         STA     L00B7
@@ -3997,7 +3997,7 @@ ENDIF
         BCC     L92F6
 
         LDA     L9316,Y
-        JSR     LFFEE
+        JSR     OSWRCH
 
         DEX
 .L92F6
@@ -4014,14 +4014,14 @@ ENDIF
 
 .L9302
         LDA     #$28
-        JSR     LFFEE
+        JSR     OSWRCH
 
         LDY     #$19
         LDA     (L00B6),Y
         JSR     L931B
 
         LDA     #$29
-        JSR     LFFEE
+        JSR     OSWRCH
 
 IF PATCH_IDE_JGH
         LDA     #$20
@@ -4045,7 +4045,7 @@ ENDIF
 .L9324
         JSR     L843E
 
-        JMP     LFFEE
+        JMP     OSWRCH
 
 .L932A
         JSR     LA6DE
@@ -4074,7 +4074,7 @@ ENDIF
         ROL     A
         ROL     A
         ADC     #$30
-        JSR     LFFEE
+        JSR     OSWRCH
 
         LDA     #<L9A5F
         STA     L00B6
@@ -4158,7 +4158,7 @@ ENDIF
 
         LDA     #$04
         STA     L102B
-        JSR     LFFE7
+        JSR     OSNEWL
 
         JMP     L93F8
 
@@ -4181,16 +4181,16 @@ ENDIF
         BEQ     L941C
 
         LDA     #$86
-        JSR     LFFF4
+        JSR     OSBYTE
 
         TXA
         BNE     L9419
 
         LDA     #$0B
-        JSR     LFFEE
+        JSR     OSWRCH
 
 .L9419
-        JSR     LFFE7
+        JSR     OSNEWL
 
 .L941C
         JMP     L89D3
@@ -4357,7 +4357,7 @@ ENDIF
 .L9501
         JSR     L92DE
 
-        JSR     LFFEE
+        JSR     OSWRCH
 
 IF PATCH_INFO AND PATCH_IDE_JGH
 
@@ -4423,7 +4423,7 @@ ENDIF
         BNE     L951B
 
 .L953C
-        JMP     LFFE7
+        JMP     OSNEWL
 
 .L953F
         JSR     L947F
@@ -5179,7 +5179,7 @@ ENDIF
         BNE     L99B8
 
 .L99D7
-        JSR     LFFE7
+        JSR     OSNEWL
 
         JSR     L8348
 
@@ -5209,12 +5209,12 @@ ENDIF
 
         LDX     #$03
 .L9A0C
-        JSR     LFFE0
+        JSR     OSRDCH
 
         CMP     #$20
         BCC     L9A16
 
-        JSR     LFFE3
+        JSR     OSASCI
 
 .L9A16
         AND     #$DF
@@ -5224,7 +5224,7 @@ ENDIF
         DEX
         BPL     L9A0C
 
-        JSR     LFFE7
+        JSR     OSNEWL
 
         INX
         STX     L10D5
@@ -5479,11 +5479,11 @@ ENDIF
 .L9B22
         LDX     #$00
         LDA     #$15
-        JSR     LFFF4
+        JSR     OSBYTE
 
         LDA     #$8A
         LDY     #$CA
-        JSR     LFFF4
+        JSR     OSBYTE
 
         PLA
         TAY
@@ -5507,7 +5507,7 @@ ENDIF
         TYA
         PHA
         LDA     #$7A
-        JSR     LFFF4
+        JSR     OSBYTE
 
         INX
         BNE     L9B57
@@ -5551,7 +5551,7 @@ ENDIF
         PHA
         LDY     #$00
         LDA     #$78
-        JSR     LFFF4
+        JSR     OSBYTE
 
         JSR     L92A0
 
@@ -5565,7 +5565,7 @@ ENDIF
         LDA     #$8F
         LDX     #$0A
         LDY     #$FF
-        JSR     LFFF4
+        JSR     OSBYTE
 
         LDA     #$10
         STA     L1000
@@ -5598,7 +5598,7 @@ ENDIF
         LDA     #$8F
         LDX     #$0F
         LDY     #$FF
-        JSR     LFFF4
+        JSR     OSBYTE
 
         JSR     LBA0C
 
@@ -5763,7 +5763,7 @@ ENDIF
 
         LDX     L9A78-1,Y
         LDY     #>boot_command_table
-        JSR     LFFF7
+        JSR     OSCLI
 
 .L9CA4
         LDX     L00F4
@@ -5862,7 +5862,7 @@ ENDIF
         PHA
         LDA     #$00
         TAY
-        JSR     LFFDA
+        JSR     OSARGS
 
         CMP     #$08
         BNE     L9D6A
@@ -6055,7 +6055,7 @@ ENDIF
         LDA     L9EE3,X
         BMI     L9E25
 
-        JSR     LFFE3
+        JSR     OSASCI
 
         INX
         DEY
@@ -6081,7 +6081,7 @@ ENDIF
         AND     #$0F
         JSR     L927B
 
-        JSR     LFFE7
+        JSR     OSNEWL
 
         PLA
         TAX
@@ -6389,7 +6389,7 @@ ENDIF
 
 .LA016
         LDA     #$20
-        JMP     LFFEE
+        JMP     OSWRCH
 
 .LA01B
         JSR     LA1AA
@@ -6463,7 +6463,7 @@ ENDIF
         DEY
         BPL     LA083
 
-        JSR     LFFE7
+        JSR     OSNEWL
 
         LDX     L00C6
         BNE     LA061
@@ -6738,7 +6738,7 @@ ENDIF
         CLC
         ADC     #$30
 .LA235
-        JSR     LFFEE
+        JSR     OSWRCH
 
         CPX     #$06
         BEQ     LA240
@@ -6748,7 +6748,7 @@ ENDIF
 
 .LA240
         TYA
-        JSR     LFFEE
+        JSR     OSWRCH
 
 .LA244
         DEX
@@ -6797,7 +6797,7 @@ ENDIF
         BCS     LA2AB
 
         LDA     #$84
-        JSR     LFFF4
+        JSR     OSBYTE
 
         TXA
         BNE     LA29B
@@ -7027,7 +7027,7 @@ ENDIF
         STA     L1132
         LDX     #<L9A85
         LDY     #>L9A85
-        JMP     LFFF7
+        JMP     OSCLI
 
 .LA3E9
         LDY     #$0B
@@ -7922,11 +7922,11 @@ ENDIF
         BPL     LA8E7
 
         LDA     #$83
-        JSR     LFFF4
+        JSR     OSBYTE
 
         STY     L1060
         LDA     #$84
-        JSR     LFFF4
+        JSR     OSBYTE
 
         TYA
         SEC
@@ -7965,7 +7965,7 @@ ENDIF
         BEQ     LA95E
 
         LDA     #$77
-        JSR     LFFF4
+        JSR     OSBYTE
 
         JSR     L89D3
 
@@ -9589,7 +9589,7 @@ ENDIF
         TXA
         PHA
         LDA     #$77
-        JSR     LFFF4
+        JSR     OSBYTE
 
         PLA
         STA     L00C5
@@ -9766,7 +9766,7 @@ ENDIF
         LDA     #$01
         LDX     #$C8
         LDY     #$10
-        JSR     LFFF1
+        JSR     OSWORD
 
         LDX     #$00
         LDY     #$04

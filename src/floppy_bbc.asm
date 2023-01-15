@@ -313,7 +313,7 @@ ENDIF
         LDA     #$FF
         LDX     #$00
         TAY
-        JSR     LFFF4
+        JSR     OSBYTE
 
         TXA
         PHA
@@ -336,7 +336,7 @@ ENDIF
         LDA     #$8F
         LDX     #$0C
         LDY     #$FF
-        JSR     LFFF4
+        JSR     OSBYTE
 
         STY     L10E1
         RTS
@@ -345,7 +345,7 @@ ENDIF
         LDY     L10E1
         LDA     #$8F
         LDX     #$0B
-        JMP     LFFF4
+        JMP     OSBYTE
 
 .LBBF1
         LDY     #$48
@@ -971,7 +971,7 @@ IF PATCH_DATACENTRE
         LDX     L00B0
         LDY     L00B1
         LDA     #$76
-        JSR     LFFF1
+        JSR     OSWORD
         JMP     LBFAE
         PAD00   14
 
