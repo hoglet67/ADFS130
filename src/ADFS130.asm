@@ -6240,7 +6240,12 @@ ENDIF
         EQUS "COMPACT"
         EQUB >(LA276-1)
         EQUB <(LA276-1)
+IF PATCH_COMPACT_CURSOR = FALSE
         EQUB $50
+ELSE
+        ; patched *COMPACT has no arguments
+        EQUB $00
+ENDIF
         EQUS "COPY"
         EQUB >(LA81D-1)
         EQUB <(LA81D-1)
@@ -6794,7 +6799,12 @@ ENDIF
         LDY     #$00
         LDA     (L00B4),Y
         CMP     #$21
+IF PATCH_COMPACT_CURSOR = FALSE
         BCS     LA2AB
+ELSE
+        ; parameters not permitted - always use screen RAM
+        BCS     LA29B
+ENDIF
 
         LDA     #$84
         JSR     OSBYTE
@@ -6820,7 +6830,11 @@ ENDIF
 .LA2AA
         EQUB    $00
 
+; only parse arguments to *COMPACT if we're not patching
+IF PATCH_COMPACT_CURSOR = FALSE
+
 .LA2AB
+        ; store two characters for SP into $1015 and $1016
         STA     L1015
         INY
         LDA     (L00B4),Y
@@ -6834,11 +6848,13 @@ ENDIF
         BNE     LA29B
 
 .LA2BF
+        ; skip spaces
         INY
         LDA     (L00B4),Y
         CMP     #$20
         BEQ     LA2BF
 
+        ; store two characters to LP into $1017 and $1018
         STA     L1017
         INY
         LDA     (L00B4),Y
@@ -6923,7 +6939,39 @@ ENDIF
 
         JMP     LA29B
 
+ELSE
+
+; VDU 23,1,Y,0;0;0;0;
+
+.set_cursor_state
+        PHA
+        TYA
+        PHA
+        LDA     #23
+        JSR     OSWRCH
+        LDA     #1
+        JSR     OSWRCH
+        TYA
+        JSR     OSWRCH
+        LDY     #8
+        LDA     #0
+.set_cursor_state_zeros
+        JSR     OSWRCH
+        DEY
+        BNE     set_cursor_state_zeros
+        PLA
+        TAY
+        PLA
+        RTS
+
+ENDIF
+
 .LA344
+IF PATCH_COMPACT_CURSOR
+        LDY     #0
+        JSR     set_cursor_state
+ENDIF
+
         JSR     LB1B3
 
         JSR     L8305
@@ -6936,6 +6984,12 @@ ENDIF
         LDA     L00CD
         AND     #$F7
         STA     L00CD
+
+IF PATCH_COMPACT_CURSOR
+        LDY     #1
+        JSR     set_cursor_state
+ENDIF
+
         RTS
 
 .LA35A

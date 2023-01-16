@@ -14,6 +14,7 @@ PATCH_UNSUPPORTED_OSFILE = FALSE   ; fix corrupted A register in unsupported OSF
 PATCH_PRESERVE_CONTEXT   = FALSE   ; preseve context (e.g. directory) over hard-break
 PATCH_TUBE_DELAY         = FALSE   ; add additional delay to tube accesses for 6MHz 32016
 PATCH_DATACENTRE         = FALSE   ; forward on to DataCentre OSWORD &76
+PATCH_COMPACT_CURSOR     = FALSE   ; patch *COMPACT to use screen RAM + turn off cursor
 
 ; IO specific addresses
 SCSI_IDE_BASE            = $FC40
