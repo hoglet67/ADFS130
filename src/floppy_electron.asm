@@ -242,12 +242,12 @@ LFE07   = $FE07
         STA     L0D14
         LDX     #$01
         LDA     #$73
-        JSR     LFFF4
+        JSR     OSBYTE
 
         LDX     #$00
         LDY     #$FF
         LDA     #$F2
-        JSR     LFFF4
+        JSR     OSBYTE
 
         TXA
         STA     L0D12
@@ -268,7 +268,7 @@ LFE07   = $FE07
         STA     LFE07
         LDX     #$00
         LDA     #$73
-        JSR     LFFF4
+        JSR     OSBYTE
 
         LDA     L0D13
         STA     L00CE
@@ -545,7 +545,7 @@ LFE07   = $FE07
         LDA     #$FF
         LDX     #$00
         TAY
-        JSR     LFFF4
+        JSR     OSBYTE
 
         TXA
         EOR     #$FF
@@ -567,7 +567,7 @@ LFE07   = $FE07
         LDA     #$8F
         LDX     #$0C
         LDY     #$FF
-        JSR     LFFF4
+        JSR     OSBYTE
 
         STY     L10E1
         RTS
@@ -576,7 +576,7 @@ LFE07   = $FE07
         LDY     L10E1
         LDA     #$8F
         LDX     #$0B
-        JMP     LFFF4
+        JMP     OSBYTE
 
 .LBD25
         BIT     L00A1
