@@ -1,4 +1,4 @@
-# Acorn ADFS 1.0x / 1.3x - Release 005
+# Acorn ADFS 1.0x / 1.3x - Release 006
 
 ## Summary
 
@@ -27,7 +27,7 @@ __src/top_ADFS133.asm__
 * excludes the TUBE DELAY patch
 * doesn't preserve padding, so code is squished up and dead code removed
 * contains HELP message: Acorn ADFS 1.33.005 (with my build number)
-* md5sum = 0017f3c9d714c39155f2c7a34970f877 (will change)
+* md5sum = 5a2d9bdd3f9e22171d7fe430bc34137a (will change)
 * currently 151 bytes free
 
 __src/top_DC133.asm__
@@ -56,7 +56,16 @@ __src/top_ELK103.asm__
 * excludes the TUBE DELAY patch
 * doesn't preserve padding, so code is squished up and dead code removed
 * contains HELP message: Electron ADFS 1.03.005 (with my build number)
-* md5sum = b5d9e7b96ff7da16f49c42c67382cb14 (will change)
+* md5sum = 4570f38426640f8bb6434c52775c8b23 (will change)
+* currently 7 bytes free
+
+__src/top_ELK130E.asm__
+
+* Mincebert's Acorn ADFS 1.30E build for the Electron
+* based on the above ELK100 build with the following changes:
+* the version string is Acorn ADFS 1.30E
+* patches *COMPACT to hide the cursor when run and re-enable it afterwards to avoid disk corruption
+* md5sum = 2441643d5121f8441298acf444bfe69f (will change)
 * currently 7 bytes free
 
 __src/top_JGH133.asm__
@@ -86,7 +95,7 @@ Building ADFS130...
     mdsum is 831ee90ac5d49ba5507252faf0c12536 -
 Building ADFS133...
     code ends at &BF69  ( 151 bytes free )
-    mdsum is 0017f3c9d714c39155f2c7a34970f877 -
+    mdsum is 5a2d9bdd3f9e22171d7fe430bc34137a -
 Building DC133...
     code ends at &C000  ( 0 bytes free )
     mdsum is c7714bd93602fdc11d2cdaab4af03b07 -
@@ -95,7 +104,10 @@ Building ELK100...
     mdsum is 883ab9513765f25d16277fce4a4581bc -
 Building ELK103...
     code ends at &BFF9  ( 7 bytes free )
-    mdsum is b5d9e7b96ff7da16f49c42c67382cb14 -
+    mdsum is 4570f38426640f8bb6434c52775c8b23 -
+Building ELK130E...
+    code ends at &BFF9  ( 7 bytes free )
+    mdsum is 2441643d5121f8441298acf444bfe69f -
 Building JGH133...
     code ends at &C000  ( 0 bytes free )
     mdsum is 2be42f51899aded44607c5167d72e34d -
@@ -104,11 +116,12 @@ Building MAST130...
     mdsum is a9014b75fc0e1efbbe89acb20c4a75b8 -
 
 Disk title:  (1)  Disk size: &320 - 200K
-Boot Option: 0 (None)   File count: 7
+Boot Option: 0 (None)   File count: 8
 
 Filename:  Lck Lo.add Ex.add Length Sct
-$.MAST130      008000 008000 004000 182
-$.JGH133       008000 008000 004000 142
+$.MAST130      008000 008000 004000 1C2
+$.JGH133       008000 008000 004000 182
+$.ELK130E      008000 008000 004000 142
 $.ELK103       008000 008000 004000 102
 $.ELK100       008000 008000 004000 0C2
 $.DC133        008000 008000 004000 082

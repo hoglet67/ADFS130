@@ -1,4 +1,4 @@
 ; Common build version, appended to help string
 MACRO INSERT_BUILD_STR
-        EQUS    "005"
+        EQUS    "006"
 ENDMACRO
